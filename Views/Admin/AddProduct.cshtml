@@ -1,0 +1,50 @@
+﻿@model eays.Models.Product
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    var categories = ViewBag.Categories as List<eays.Models.Category> ?? new List<eays.Models.Category>();
+}
+
+<div class="admin-content">
+    <div class="card-admin">
+        <h2>Add Product</h2>
+
+        <form asp-action="AddProduct" method="post" enctype="multipart/form-data">
+
+            <div class="form-row">
+                <label>Product Name</label>
+                <input asp-for="Name" class="input-admin" />
+            </div>
+
+            <div class="form-row">
+                <label>Category</label>
+                <select asp-for="CategoryId" class="input-admin">
+                    <option value="">-- Select Category --</option>
+                    @foreach (var c in categories)
+                    {
+                        <option value="@c.Id">@c.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-row">
+                <label>Price</label>
+                <input asp-for="Price" class="input-admin" />
+            </div>
+
+            <div class="form-row">
+                <label>Stock</label>
+                <input asp-for="Stock" class="input-admin" />
+            </div>
+
+            <div class="form-row">
+                <label>Product Image</label>
+                <input type="file" name="ImageFile" class="input-admin" />
+            </div>
+
+            <button type="submit" class="btn-primary-admin">
+                Save Product
+            </button>
+
+        </form>
+    </div>
+</div>

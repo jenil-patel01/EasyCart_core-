@@ -1,0 +1,365 @@
+@model eays.Models.Order
+@{
+    ViewData["Title"] = "Order Confirmed";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+<style>
+    .success-page {
+        background: linear-gradient(160deg, #f0fff4 0%, #f8f9fe 100%);
+        min-height: 100vh;
+        padding: 50px 0 60px;
+    }
+
+    /* Checkmark Animation */
+    .success-check {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #00b894, #00cec9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+        box-shadow: 0 12px 30px rgba(0,184,148,.3);
+        animation: popIn .5s cubic-bezier(.17,.67,.28,1.15);
+    }
+
+    .success-check i {
+        font-size: 44px;
+        color: #fff;
+    }
+
+    @@keyframes popIn {
+        0%   { transform: scale(0); opacity: 0; }
+        70%  { transform: scale(1.15); }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .success-title {
+        font-size: 30px;
+        font-weight: 800;
+        color: #2d3436;
+    }
+
+    .success-subtitle {
+        color: #636e72;
+        font-size: 15px;
+        max-width: 500px;
+        margin: 8px auto 0;
+    }
+
+    .order-id-box {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea15, #764ba215);
+        border: 2px solid #667eea30;
+        border-radius: 12px;
+        padding: 10px 24px;
+        margin-top: 16px;
+    }
+
+    .order-id-box span {
+        font-size: 13px;
+        color: #636e72;
+        font-weight: 600;
+    }
+
+    .order-id-box strong {
+        font-size: 20px;
+        color: #667eea;
+        font-weight: 800;
+    }
+
+    /* Steps */
+    .done-steps {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .done-step {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #00b894;
+    }
+
+    .done-step-num {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 11px;
+        background: #00b894;
+        color: #fff;
+    }
+
+    .done-step-line {
+        width: 40px;
+        height: 2px;
+        background: #00b894;
+        border-radius: 2px;
+    }
+
+    /* Detail Card */
+    .detail-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .detail-card h6 {
+        font-weight: 700;
+        font-size: 16px;
+        color: #2d3436;
+        margin-bottom: 16px;
+    }
+
+    .detail-card h6 i { color: #667eea; margin-right: 8px; }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        font-size: 14px;
+        color: #636e72;
+        border-bottom: 1px solid #f8f9fa;
+    }
+
+    .detail-row:last-child { border-bottom: none; }
+    .detail-row strong { color: #2d3436; }
+
+    /* Item Row */
+    .item-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid #f1f2f6;
+    }
+
+    .item-row:last-child { border-bottom: none; }
+
+    .item-img {
+        width: 56px;
+        height: 56px;
+        border-radius: 10px;
+        object-fit: cover;
+        border: 2px solid #f1f2f6;
+        flex-shrink: 0;
+    }
+
+    .item-placeholder {
+        width: 56px;
+        height: 56px;
+        border-radius: 10px;
+        background: #f1f2f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: #b2bec3;
+        flex-shrink: 0;
+    }
+
+    .item-name {
+        font-weight: 600;
+        font-size: 14px;
+        color: #2d3436;
+    }
+
+    .item-detail {
+        font-size: 12px;
+        color: #b2bec3;
+    }
+
+    .item-price {
+        margin-left: auto;
+        font-weight: 700;
+        font-size: 15px;
+        color: #2d3436;
+        white-space: nowrap;
+    }
+
+    /* Total */
+    .total-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(135deg, #667eea10, #764ba210);
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-top: 16px;
+    }
+
+    .total-bar span { font-weight: 700; font-size: 16px; color: #2d3436; }
+    .total-bar strong { font-weight: 800; font-size: 22px; color: #00b894; }
+
+    /* Buttons */
+    .btn-continue {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        border: none;
+        padding: 12px 32px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 15px;
+        text-decoration: none;
+        transition: all .3s;
+    }
+
+    .btn-continue:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(102,126,234,.4);
+        color: #fff;
+    }
+
+    .btn-orders {
+        border: 2px solid #667eea;
+        color: #667eea;
+        padding: 10px 28px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 15px;
+        text-decoration: none;
+        transition: all .3s;
+    }
+
+    .btn-orders:hover {
+        background: #667eea;
+        color: #fff;
+    }
+</style>
+
+<div class="success-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+
+                <!-- Steps Done -->
+                <div class="done-steps">
+                    <div class="done-step">
+                        <span class="done-step-num"><i class="fa fa-check" style="font-size:11px;"></i></span> Cart
+                    </div>
+                    <div class="done-step-line"></div>
+                    <div class="done-step">
+                        <span class="done-step-num"><i class="fa fa-check" style="font-size:11px;"></i></span> Checkout
+                    </div>
+                    <div class="done-step-line"></div>
+                    <div class="done-step">
+                        <span class="done-step-num"><i class="fa fa-check" style="font-size:11px;"></i></span> Confirmed
+                    </div>
+                </div>
+
+                <!-- Success Header -->
+                <div class="text-center mb-4">
+                    <div class="success-check">
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <h2 class="success-title">Order Placed Successfully! ??</h2>
+                    <p class="success-subtitle">
+                        Thank you for your purchase! Your order has been confirmed and will be shipped soon.
+                    </p>
+                    @if (Model != null)
+                    {
+                        <div class="order-id-box">
+                            <span>Order ID:</span><br />
+                            <strong>#@Model.Id</strong>
+                        </div>
+                    }
+                </div>
+
+                @if (Model != null)
+                {
+                    <div class="row g-4">
+
+                        <!-- Shipping Info -->
+                        <div class="col-md-5">
+                            <div class="detail-card h-100">
+                                <h6><i class="fa fa-truck-fast"></i> Shipping Details</h6>
+
+                                <div class="detail-row">
+                                    <span>Name</span>
+                                    <strong>@Model.FullName</strong>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Email</span>
+                                    <strong>@Model.Email</strong>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Address</span>
+                                    <strong>@Model.Address</strong>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Date</span>
+                                    <strong>@Model.OrderDate.ToString("MMM dd, yyyy")</strong>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Items</span>
+                                    <strong>@(Model.OrderItems?.Count ?? 0) product(s)</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Items -->
+                        <div class="col-md-7">
+                            <div class="detail-card h-100">
+                                <h6><i class="fa fa-box-open"></i> Items Ordered</h6>
+
+                                @if (Model.OrderItems != null)
+                                {
+                                    @foreach (var item in Model.OrderItems)
+                                    {
+                                        <div class="item-row">
+                                            @if (!string.IsNullOrEmpty(item.Product?.ImageUrl))
+                                            {
+                                                <img src="@item.Product.ImageUrl" class="item-img" alt="@item.Product.Name" />
+                                            }
+                                            else
+                                            {
+                                                <div class="item-placeholder">
+                                                    <i class="fa fa-box"></i>
+                                                </div>
+                                            }
+                                            <div>
+                                                <div class="item-name">@(item.Product?.Name ?? "Product")</div>
+                                                <div class="item-detail">Qty: @item.Quantity × $@item.Price.ToString("N2")</div>
+                                            </div>
+                                            <div class="item-price">$@((item.Price * item.Quantity).ToString("N2"))</div>
+                                        </div>
+                                    }
+                                }
+
+                                <div class="total-bar">
+                                    <span>Total Paid</span>
+                                    <strong>$@Model.TotalAmount.ToString("N2")</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                }
+
+                <!-- Action Buttons -->
+                <div class="text-center mt-4 d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="/Home/Products" class="btn-continue">
+                        <i class="fa fa-shopping-bag me-1"></i> Continue Shopping
+                    </a>
+                    <a href="/orders" class="btn-orders">
+                        <i class="fa fa-list me-1"></i> View My Orders
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

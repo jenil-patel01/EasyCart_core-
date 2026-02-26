@@ -1,0 +1,69 @@
+@model eays.Models.Product
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    var categories = ViewBag.Categories as List<eays.Models.Category> ?? new List<eays.Models.Category>();
+}
+
+<div class="admin-card">
+
+    <div class="admin-card-header">
+        <h2>Edit Product</h2>
+        <a asp-action="Products" class="btn btn-light">← Back</a>
+    </div>
+
+    <form asp-action="EditProduct" method="post" enctype="multipart/form-data" class="admin-form">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-grid">
+
+            <div class="form-left">
+
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input asp-for="Name" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+                    <select asp-for="CategoryId" class="form-control">
+                        <option value="">-- No Category --</option>
+                        @foreach (var c in categories)
+                        {
+                            <option value="@c.Id">@c.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Price (₹)</label>
+                    <input asp-for="Price" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Stock</label>
+                    <input asp-for="Stock" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Change Image</label>
+                    <input type="file" name="ImageFile" class="form-control" />
+                </div>
+
+            </div>
+
+            <div class="form-right">
+                <label>Current Image</label>
+                <div class="image-preview">
+                    <img src="@Model.ImageUrl" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-purple">Update Product</button>
+            <a asp-action="Products" class="btn btn-light">Cancel</a>
+        </div>
+
+    </form>
+</div>

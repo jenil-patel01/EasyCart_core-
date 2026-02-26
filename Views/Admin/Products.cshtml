@@ -1,0 +1,62 @@
+@model List<Product>
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Products</h2>
+
+<div class="card-table">
+
+    <div class="table-header">
+        <h3>All Products</h3>
+        <a asp-action="AddProduct" class="btn btn-edit">
+            + Add Product
+        </a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.Id</td>
+                    <td>
+                        <img src="@p.ImageUrl" width="50" style="border-radius:8px;object-fit:cover;height:50px;" />
+                    </td>
+                    <td><strong>@p.Name</strong></td>
+                    <td>
+                        @if (p.Category != null)
+                        {
+                            <span style="background:#f0ebff;color:#6f42c1;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600;">
+                                @p.Category.Name
+                            </span>
+                        }
+                        else
+                        {
+                            <span style="color:#aaa;font-size:12px;">Uncategorized</span>
+                        }
+                    </td>
+                    <td>@p.Price</td>
+                    <td>@p.Stock</td>
+                    <td class="text-end">
+                        <a asp-action="EditProduct" asp-route-id="@p.Id" class="btn-edit">Edit</a>
+                        <a asp-action="DeleteProduct" asp-route-id="@p.Id" class="btn-del"
+                           onclick="return confirm('Delete this product?')">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

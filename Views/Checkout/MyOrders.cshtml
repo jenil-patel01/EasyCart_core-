@@ -1,0 +1,498 @@
+@model List<eays.Models.Order>
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+<style>
+    .orders-page {
+        background: linear-gradient(160deg, #f8f9fe 0%, #eef1f8 100%);
+        min-height: 100vh;
+        padding: 40px 0 60px;
+    }
+
+    .orders-title {
+        font-size: 28px;
+        font-weight: 800;
+        color: #2d3436;
+    }
+
+    .orders-title i { color: #667eea; }
+
+    .orders-count {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        padding: 3px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 700;
+        margin-left: 8px;
+    }
+
+    /* Order Card */
+    .order-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.03);
+        overflow: hidden;
+        transition: all .3s ease;
+    }
+
+    .order-card:hover {
+        box-shadow: 0 12px 36px rgba(0,0,0,0.1);
+        transform: translateY(-3px);
+    }
+
+    .order-card-header {
+        background: linear-gradient(135deg, #f8f9fe, #fff);
+        padding: 18px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        border-bottom: 1px solid #f1f2f6;
+    }
+
+    .order-id {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        padding: 5px 16px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .order-date {
+        font-size: 13px;
+        color: #636e72;
+        font-weight: 500;
+    }
+
+    .order-date i { color: #b2bec3; margin-right: 4px; }
+
+    .order-total-badge {
+        font-weight: 800;
+        font-size: 17px;
+        color: #00b894;
+    }
+
+    .order-card-body {
+        padding: 20px 24px;
+    }
+
+    /* Item inside order */
+    .order-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid #f8f9fa;
+    }
+
+    .order-item:last-child { border-bottom: none; }
+
+    .oi-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        object-fit: cover;
+        border: 2px solid #f1f2f6;
+        flex-shrink: 0;
+    }
+
+    .oi-placeholder {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #f1f2f6, #dfe6e9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: #b2bec3;
+        flex-shrink: 0;
+    }
+
+    .oi-name {
+        font-weight: 600;
+        font-size: 14px;
+        color: #2d3436;
+    }
+
+    .oi-qty {
+        font-size: 12px;
+        color: #b2bec3;
+        font-weight: 600;
+    }
+
+    .oi-price {
+        margin-left: auto;
+        font-weight: 700;
+        font-size: 14px;
+        color: #2d3436;
+        white-space: nowrap;
+    }
+
+    /* Footer */
+    .order-card-footer {
+        background: #fafbfc;
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid #f1f2f6;
+    }
+
+    .order-items-count {
+        font-size: 13px;
+        color: #b2bec3;
+        font-weight: 600;
+    }
+
+    .order-total-label {
+        font-size: 13px;
+        color: #636e72;
+    }
+
+    .order-total-value {
+        font-size: 18px;
+        font-weight: 800;
+        color: #00b894;
+    }
+
+    /* Empty */
+    .empty-box {
+        background: #fff;
+        border-radius: 16px;
+        padding: 60px 30px;
+        text-align: center;
+        box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+    }
+
+    .empty-box i {
+        font-size: 64px;
+        color: #dfe6e9;
+        display: block;
+        margin-bottom: 16px;
+    }
+
+    .btn-shop {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all .3s;
+    }
+
+    .btn-shop:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102,126,234,.3);
+        color: #fff;
+    }
+
+    .shipping-info {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: #b2bec3;
+        font-weight: 600;
+        margin-top: 6px;
+    }
+
+    .shipping-info span i { margin-right: 4px; color: #dfe6e9; }
+
+    /* ===== STATUS BADGE ===== */
+    .status-pill {
+        padding: 5px 16px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        letter-spacing: .3px;
+    }
+
+    .status-Pending    { background: linear-gradient(135deg, #fdcb6e, #f39c12); color: #fff; }
+    .status-Processing { background: linear-gradient(135deg, #74b9ff, #0984e3); }
+    .status-Shipped    { background: linear-gradient(135deg, #a29bfe, #6c5ce7); }
+    .status-Delivered  { background: linear-gradient(135deg, #00b894, #00cec9); }
+    .status-Cancelled  { background: linear-gradient(135deg, #ff7675, #d63031); }
+
+    /* ===== ORDER TRACKER ===== */
+    .order-tracker {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 24px 14px;
+        background: linear-gradient(135deg, #f8f9fe, #fff);
+        border-top: 1px solid #f1f2f6;
+        position: relative;
+    }
+
+    .tracker-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 1;
+        flex: 0 0 auto;
+    }
+
+    .tracker-dot {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+        background: #f1f2f6;
+        color: #b2bec3;
+        border: 3px solid #e0e0e0;
+        transition: all .3s;
+    }
+
+    .tracker-step.active .tracker-dot {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        border-color: #667eea;
+        box-shadow: 0 4px 14px rgba(102,126,234,.35);
+    }
+
+    .tracker-step.done .tracker-dot {
+        background: #00b894;
+        color: #fff;
+        border-color: #00b894;
+        box-shadow: 0 4px 14px rgba(0,184,148,.3);
+    }
+
+    .tracker-step.cancelled .tracker-dot {
+        background: #ff7675;
+        color: #fff;
+        border-color: #d63031;
+        box-shadow: 0 4px 14px rgba(214,48,49,.3);
+    }
+
+    .tracker-label {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        color: #b2bec3;
+        margin-top: 6px;
+    }
+
+    .tracker-step.active .tracker-label,
+    .tracker-step.done .tracker-label { color: #2d3436; }
+    .tracker-step.cancelled .tracker-label { color: #d63031; }
+
+    .tracker-line-wrap {
+        flex: 1;
+        height: 4px;
+        background: #e0e0e0;
+        border-radius: 2px;
+        margin: 0 6px;
+        position: relative;
+        top: -8px;
+    }
+
+    .tracker-line-fill {
+        height: 100%;
+        border-radius: 2px;
+        background: linear-gradient(135deg, #00b894, #00cec9);
+        transition: width .4s ease;
+    }
+
+    .tracker-line-wrap.cancelled-line .tracker-line-fill {
+        background: linear-gradient(135deg, #ff7675, #d63031);
+    }
+</style>
+
+<div class="orders-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+
+                <div class="d-flex align-items-center mb-4">
+                    <h2 class="orders-title mb-0">
+                        <i class="fa fa-bag-shopping"></i> My Orders
+                    </h2>
+                    <span class="orders-count">@Model.Count</span>
+                </div>
+
+                @if (Model.Any())
+                {
+                    <div class="d-flex flex-column gap-4">
+
+                        @foreach (var order in Model)
+                        {
+                            // Determine step index for tracker
+                            var statusSteps = new[] { "Pending", "Processing", "Shipped", "Delivered" };
+                            var isCancelled = order.Status == "Cancelled";
+                            var currentStep = Array.IndexOf(statusSteps, order.Status);
+                            if (currentStep < 0 && !isCancelled) currentStep = 0;
+
+                            <div class="order-card">
+                                <!-- Header -->
+                                <div class="order-card-header">
+                                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                                        <span class="order-id">#@order.Id</span>
+                                        <span class="order-date">
+                                            <i class="fa fa-calendar-day"></i>
+                                            @order.OrderDate.ToString("MMM dd, yyyy — hh:mm tt")
+                                        </span>
+                                        <span class="status-pill status-@order.Status">
+                                            @if (order.Status == "Pending")
+                                            {
+                                                <i class="fa fa-clock"></i>
+                                            }
+                                            else if (order.Status == "Processing")
+                                            {
+                                                <i class="fa fa-gear"></i>
+                                            }
+                                            else if (order.Status == "Shipped")
+                                            {
+                                                <i class="fa fa-truck-fast"></i>
+                                            }
+                                            else if (order.Status == "Delivered")
+                                            {
+                                                <i class="fa fa-circle-check"></i>
+                                            }
+                                            else if (order.Status == "Cancelled")
+                                            {
+                                                <i class="fa fa-ban"></i>
+                                            }
+                                            @order.Status
+                                        </span>
+                                    </div>
+                                    <div class="order-total-badge">$@order.TotalAmount.ToString("N2")</div>
+                                </div>
+
+                                <!-- Status Tracker -->
+                                <div class="order-tracker">
+                                    @if (isCancelled)
+                                    {
+                                        <!-- Cancelled: show a single cancelled state -->
+                                        <div class="tracker-step done">
+                                            <div class="tracker-dot"><i class="fa fa-check" style="font-size:12px;"></i></div>
+                                            <div class="tracker-label">Ordered</div>
+                                        </div>
+                                        <div class="tracker-line-wrap cancelled-line">
+                                            <div class="tracker-line-fill" style="width:100%;"></div>
+                                        </div>
+                                        <div class="tracker-step cancelled">
+                                            <div class="tracker-dot"><i class="fa fa-xmark" style="font-size:14px;"></i></div>
+                                            <div class="tracker-label">Cancelled</div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        var icons = new[] { "fa-clock", "fa-gear", "fa-truck-fast", "fa-circle-check" };
+                                        var labels = new[] { "Pending", "Processing", "Shipped", "Delivered" };
+
+                                        for (int i = 0; i < 4; i++)
+                                        {
+                                            var stepClass = "";
+                                            if (i < currentStep) stepClass = "done";
+                                            else if (i == currentStep) stepClass = "active";
+
+                                            <div class="tracker-step @stepClass">
+                                                <div class="tracker-dot">
+                                                    @if (i < currentStep)
+                                                    {
+                                                        <i class="fa fa-check" style="font-size:12px;"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="fa @icons[i]" style="font-size:12px;"></i>
+                                                    }
+                                                </div>
+                                                <div class="tracker-label">@labels[i]</div>
+                                            </div>
+
+                                            @if (i < 3)
+                                            {
+                                                var fillWidth = "0%";
+                                                if (i < currentStep) fillWidth = "100%";
+                                                else if (i == currentStep) fillWidth = "50%";
+
+                                                <div class="tracker-line-wrap">
+                                                    <div class="tracker-line-fill" style="width:@fillWidth;"></div>
+                                                </div>
+                                            }
+                                        }
+                                    }
+                                </div>
+
+                                <!-- Items -->
+                                <div class="order-card-body">
+                                    @if (order.OrderItems != null)
+                                    {
+                                        @foreach (var item in order.OrderItems)
+                                        {
+                                            <div class="order-item">
+                                                @if (!string.IsNullOrEmpty(item.Product?.ImageUrl))
+                                                {
+                                                    <img src="@item.Product.ImageUrl" class="oi-img" alt="@item.Product.Name" />
+                                                }
+                                                else
+                                                {
+                                                    <div class="oi-placeholder"><i class="fa fa-box"></i></div>
+                                                }
+                                                <div>
+                                                    <div class="oi-name">@(item.Product?.Name ?? "Product")</div>
+                                                    <div class="oi-qty">Qty: @item.Quantity × $@item.Price.ToString("N2")</div>
+                                                </div>
+                                                <div class="oi-price">$@((item.Price * item.Quantity).ToString("N2"))</div>
+                                            </div>
+                                        }
+                                    }
+
+                                    <div class="shipping-info">
+                                        <span><i class="fa fa-user"></i> @order.FullName</span>
+                                        <span><i class="fa fa-envelope"></i> @order.Email</span>
+                                        <span><i class="fa fa-location-dot"></i> @order.Address</span>
+                                    </div>
+                                </div>
+
+                                <!-- Footer -->
+                                <div class="order-card-footer">
+                                    <span class="order-items-count">
+                                        <i class="fa fa-box-open me-1"></i>
+                                        @(order.OrderItems?.Count ?? 0) item(s)
+                                    </span>
+                                    <div>
+                                        <span class="order-total-label">Total: </span>
+                                        <span class="order-total-value">$@order.TotalAmount.ToString("N2")</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-box">
+                        <i class="fa fa-box-open"></i>
+                        <h5 class="fw-bold" style="color:#636e72;">No orders yet</h5>
+                        <p style="color:#b2bec3;">Your order history will appear here after your first purchase.</p>
+                        <a href="/Home/Products" class="btn-shop mt-2">
+                            <i class="fa fa-shopping-bag me-1"></i> Start Shopping
+                        </a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

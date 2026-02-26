@@ -1,0 +1,40 @@
+@model eays.Models.Category
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="admin-content">
+    <div class="card-admin">
+        <h2>Add Category</h2>
+
+        <form asp-action="AddCategory" method="post">
+
+            <div class="form-row">
+                <label>Category Name</label>
+                <input asp-for="Name" class="input-admin" placeholder="e.g. Electronics" />
+            </div>
+
+            <div class="form-row">
+                <label>Icon (Font Awesome class)</label>
+                <input asp-for="Icon" class="input-admin" placeholder="e.g. fa fa-laptop" />
+                <small style="color:#888;margin-top:4px;">
+                    Browse icons at <a href="https://fontawesome.com/icons" target="_blank">fontawesome.com/icons</a>
+                </small>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model?.Icon))
+            {
+                <div style="margin-bottom:15px;">
+                    <span style="font-size:14px;color:#666;">Preview:</span>
+                    <i class="@Model.Icon" style="font-size:24px;color:#7b1fa2;margin-left:8px;"></i>
+                </div>
+            }
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary-admin">Save Category</button>
+                <a asp-action="Categories" class="btn-light">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+</div>

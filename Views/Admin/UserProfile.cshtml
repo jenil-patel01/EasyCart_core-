@@ -1,0 +1,169 @@
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex align-items-center gap-3">
+        <a href="/Admin/Users" class="btn btn-light rounded-circle shadow-sm text-muted d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+            ⬅️
+        </a>
+        <h2 class="fw-bold text-dark mb-0">User Profile</h2>
+    </div>
+    <div class="d-flex gap-2">
+        <button class="btn btn-outline-danger shadow-sm rounded-pill px-4">
+            Suspend User
+        </button>
+        <button class="btn btn-primary shadow-sm rounded-pill px-4">
+            Edit Details
+        </button>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <!-- Profile Card (Left) -->
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 h-100 pb-4">
+            <div class="card-body text-center mt-4">
+                <div class="position-relative d-inline-block mb-3">
+                    <img src="https://i.pravatar.cc/150?u=4" alt="Profile avatar" class="rounded-circle shadow-lg border border-3 border-white p-1" style="width: 140px; height: 140px; object-fit: cover;">
+                    <span class="position-absolute bottom-0 end-0 bg-success border border-2 border-white rounded-circle" style="width: 24px; height: 24px;" title="Online"></span>
+                </div>
+                <h4 class="fw-bold mb-1">Sarah Jenkins</h4>
+                <p class="text-muted mb-3">Customer &bull; Active</p>
+                <div class="d-flex justify-content-center gap-2 mb-4">
+                    <a href="mailto:sarah.j@example.com" class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;" title="Send Email">✉️</a>
+                </div>
+                
+                <hr class="text-muted opacity-25">
+                
+                <div class="px-3 text-start mt-4">
+                    <div class="mb-3 d-flex align-items-center">
+                        <span class="me-3" style="font-size: 1.25rem;">📱</span>
+                        <div>
+                            <p class="text-muted small mb-0 fw-semibold text-uppercase">Phone Number</p>
+                            <span class="text-dark fw-medium">+1 (555) 123-4567</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-flex align-items-center">
+                        <span class="me-3" style="font-size: 1.25rem;">📍</span>
+                        <div>
+                            <p class="text-muted small mb-0 fw-semibold text-uppercase">Location</p>
+                            <span class="text-dark fw-medium">New York, USA</span>
+                        </div>
+                    </div>
+                    <div class="mb-0 d-flex align-items-center">
+                        <span class="me-3" style="font-size: 1.25rem;">⏳</span>
+                        <div>
+                            <p class="text-muted small mb-0 fw-semibold text-uppercase">Joined</p>
+                            <span class="text-dark fw-medium">November 02, 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Details and Activity (Right) -->
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <!-- Nav Tabs -->
+            <ul class="nav nav-tabs card-header-tabs px-4 pt-3 mb-0 border-bottom-0 gap-3" id="profileTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active bg-white text-dark fw-semibold border-top-0 border-end-0 border-start-0 border-3 border-primary pb-3 px-2" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-selected="true">
+                        Detailed Info
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link text-muted fw-semibold border-0 pb-3 px-2 bg-transparent" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab" aria-selected="false">
+                        Recent Orders
+                    </button>
+                </li>
+            </ul>
+            <hr class="m-0 text-muted opacity-25">
+            
+            <div class="card-body p-4 tab-content" id="profileTabsContent">
+                <!-- Detailed Info Tab -->
+                <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+                    <h5 class="fw-bold mb-4">Personal Information</h5>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="text-muted small fw-semibold text-uppercase mb-1">Full Name</label>
+                            <p class="fw-medium text-dark bg-light rounded px-3 py-2 mb-0 border border-light shadow-sm">Sarah Jenkins</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small fw-semibold text-uppercase mb-1">Email Address</label>
+                            <p class="fw-medium text-dark bg-light rounded px-3 py-2 mb-0 border border-light shadow-sm">sarah.j@example.com</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small fw-semibold text-uppercase mb-1">Phone</label>
+                            <p class="fw-medium text-dark bg-light rounded px-3 py-2 mb-0 border border-light shadow-sm">+1 (555) 123-4567</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small fw-semibold text-uppercase mb-1">Date of Birth</label>
+                            <p class="fw-medium text-dark bg-light rounded px-3 py-2 mb-0 border border-light shadow-sm">Aug 14, 1990</p>
+                        </div>
+                        
+                        <div class="col-12 mt-5">
+                            <h5 class="fw-bold mb-4">Shipping Address</h5>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <label class="text-muted small fw-semibold text-uppercase mb-1">Street Address</label>
+                            <p class="fw-medium text-dark bg-light rounded px-3 py-2 mb-0 border border-light shadow-sm">1234 Park Avenue, Apt 5B</p>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small fw-semibold text-uppercase mb-1">City</label>
+                            <p class="fw-medium text-dark bg-light rounded px-3 py-2 mb-0 border border-light shadow-sm">New York</p>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small fw-semibold text-uppercase mb-1">State/Province</label>
+                            <p class="fw-medium text-dark bg-light rounded px-3 py-2 mb-0 border border-light shadow-sm">NY</p>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small fw-semibold text-uppercase mb-1">Zip Code</label>
+                            <p class="fw-medium text-dark bg-light rounded px-3 py-2 mb-0 border border-light shadow-sm">10001</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Orders Tab -->
+                <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold mb-0">Order History</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th scope="col" class="py-2 px-3 text-muted fw-semibold text-uppercase" style="font-size: 0.8rem;">Order ID</th>
+                                    <th scope="col" class="py-2 px-3 text-muted fw-semibold text-uppercase" style="font-size: 0.8rem;">Date</th>
+                                    <th scope="col" class="py-2 px-3 text-muted fw-semibold text-uppercase" style="font-size: 0.8rem;">Amount</th>
+                                    <th scope="col" class="py-2 px-3 text-muted fw-semibold text-uppercase" style="font-size: 0.8rem;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-3 px-3 fw-semibold"><a href="#" class="text-primary text-decoration-none">#ORD-1025</a></td>
+                                    <td class="py-3 px-3 text-muted small">Feb 20, 2026</td>
+                                    <td class="py-3 px-3 fw-medium">$129.99</td>
+                                    <td class="py-3 px-3"><span class="badge bg-success bg-opacity-10 text-success px-2 py-1 rounded-pill">Delivered</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-3 fw-semibold"><a href="#" class="text-primary text-decoration-none">#ORD-0982</a></td>
+                                    <td class="py-3 px-3 text-muted small">Jan 15, 2026</td>
+                                    <td class="py-3 px-3 fw-medium">$45.00</td>
+                                    <td class="py-3 px-3"><span class="badge bg-success bg-opacity-10 text-success px-2 py-1 rounded-pill">Delivered</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-3 fw-semibold"><a href="#" class="text-primary text-decoration-none">#ORD-0744</a></td>
+                                    <td class="py-3 px-3 text-muted small">Dec 01, 2025</td>
+                                    <td class="py-3 px-3 fw-medium">$340.50</td>
+                                    <td class="py-3 px-3"><span class="badge bg-success bg-opacity-10 text-success px-2 py-1 rounded-pill">Delivered</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,247 @@
+@model List<eays.Models.Order>
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+
+<style>
+    .filter-tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .filter-tab {
+        padding: 8px 18px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        border: 2px solid #eee;
+        color: #636e72;
+        transition: all .2s;
+    }
+
+    .filter-tab:hover { border-color: #667eea; color: #667eea; }
+
+    .filter-tab.active {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        border-color: transparent;
+    }
+
+    .filter-tab .badge {
+        background: rgba(255,255,255,.25);
+        border-radius: 6px;
+        padding: 2px 7px;
+        font-size: 11px;
+        margin-left: 4px;
+    }
+
+    .filter-tab:not(.active) .badge {
+        background: #f1f2f6;
+        color: #636e72;
+    }
+
+    .orders-table {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .orders-table table { margin-bottom: 0; }
+
+    .orders-table thead th {
+        background: #f8f9fa;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+        color: #b2bec3;
+        padding: 14px 16px;
+        border: none;
+    }
+
+    .orders-table tbody td {
+        padding: 14px 16px;
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .orders-table tbody tr {
+        transition: background .15s;
+    }
+
+    .orders-table tbody tr:hover { background: #f8f9fe; }
+
+    .order-id-badge {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        padding: 4px 12px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .status-pill {
+        padding: 5px 14px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #fff;
+    }
+
+    .status-Pending    { background: #fdcb6e; color: #856404; }
+    .status-Processing { background: #74b9ff; color: #0c5460; }
+    .status-Shipped    { background: #a29bfe; }
+    .status-Delivered  { background: #00b894; }
+    .status-Cancelled  { background: #ff7675; }
+
+    .btn-detail {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 6px 14px;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all .2s;
+    }
+
+    .btn-detail:hover {
+        box-shadow: 0 4px 14px rgba(102,126,234,.4);
+        color: #fff;
+        transform: translateY(-1px);
+    }
+
+    .btn-del {
+        background: #ff7675;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 6px 14px;
+        font-size: 12px;
+        font-weight: 600;
+        transition: all .2s;
+        cursor: pointer;
+    }
+
+    .btn-del:hover {
+        background: #d63031;
+        box-shadow: 0 4px 14px rgba(214,48,49,.3);
+    }
+
+    .amount-text {
+        font-weight: 700;
+        color: #00b894;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #b2bec3;
+    }
+
+    .empty-state i { font-size: 48px; display: block; margin-bottom: 12px; color: #dfe6e9; }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold mb-0">Orders Management</h2>
+    <span style="font-size:14px; color:#b2bec3; font-weight:600;">
+        @Model.Count order(s)
+    </span>
+</div>
+
+@if (TempData["OrderMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert"
+         style="border-radius:10px; border:none; font-weight:600;">
+        <i class="fa fa-check-circle me-1"></i> @TempData["OrderMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<!-- FILTER TABS -->
+<div class="filter-tabs">
+    <a href="/Admin/Orders" class="filter-tab @(ViewBag.CurrentFilter == "All" ? "active" : "")">
+        All <span class="badge">@(Model.Count)</span>
+    </a>
+    <a href="/Admin/Orders?status=Pending" class="filter-tab @(ViewBag.CurrentFilter == "Pending" ? "active" : "")">
+        ?? Pending <span class="badge">@ViewBag.PendingCount</span>
+    </a>
+    <a href="/Admin/Orders?status=Processing" class="filter-tab @(ViewBag.CurrentFilter == "Processing" ? "active" : "")">
+        ?? Processing <span class="badge">@ViewBag.ProcessingCount</span>
+    </a>
+    <a href="/Admin/Orders?status=Shipped" class="filter-tab @(ViewBag.CurrentFilter == "Shipped" ? "active" : "")">
+        ?? Shipped <span class="badge">@ViewBag.ShippedCount</span>
+    </a>
+    <a href="/Admin/Orders?status=Delivered" class="filter-tab @(ViewBag.CurrentFilter == "Delivered" ? "active" : "")">
+        ? Delivered <span class="badge">@ViewBag.DeliveredCount</span>
+    </a>
+    <a href="/Admin/Orders?status=Cancelled" class="filter-tab @(ViewBag.CurrentFilter == "Cancelled" ? "active" : "")">
+        ? Cancelled <span class="badge">@ViewBag.CancelledCount</span>
+    </a>
+</div>
+
+<!-- ORDERS TABLE -->
+@if (Model.Any())
+{
+    <div class="orders-table">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Order</th>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Date</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th style="text-align:right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td><span class="order-id-badge">#@order.Id</span></td>
+                        <td><strong>@order.FullName</strong></td>
+                        <td style="color:#636e72; font-size:13px;">@order.Email</td>
+                        <td style="font-size:13px;">@order.OrderDate.ToString("MMM dd, yyyy")</td>
+                        <td>@(order.OrderItems?.Count ?? 0)</td>
+                        <td class="amount-text">$@order.TotalAmount.ToString("N2")</td>
+                        <td>
+                            <span class="status-pill status-@order.Status">@order.Status</span>
+                        </td>
+                        <td style="text-align:right;">
+                            <a href="/Admin/OrderDetail/@order.Id" class="btn-detail me-1">
+                                <i class="fa fa-eye"></i> View
+                            </a>
+                            <form asp-action="DeleteOrder" method="post" style="display:inline;"
+                                  onsubmit="return confirm('Delete order #@order.Id?')">
+                                <input type="hidden" name="id" value="@order.Id" />
+                                <button type="submit" class="btn-del">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="empty-state">
+        <i class="fa fa-box-open"></i>
+        <h5 class="fw-bold" style="color:#636e72;">No orders found</h5>
+        <p>Orders will appear here when customers place them.</p>
+    </div>
+}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

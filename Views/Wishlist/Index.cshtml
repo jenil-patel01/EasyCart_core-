@@ -1,0 +1,35 @@
+﻿@model List<eays.Models.WishlistItem>
+
+@{
+    ViewData["Title"] = "My Wishlist";
+}
+
+<h2>My Wishlist</h2>
+
+@if (!Model.Any())
+{
+    <p>Your wishlist is empty.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3 mb-3">
+                <div class="card p-2">
+                    <img src="@item.Product.ImageUrl" class="card-img-top" style="height:150px;object-fit:contain;" />
+                    <div class="card-body text-center">
+                        <h6>@item.Product.Name</h6>
+                        <p>$@item.Product.Price</p>
+
+                        <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.ProductId"
+                           class="btn btn-primary btn-sm">Add to Cart</a>
+
+                        <a asp-controller="Wishlist" asp-action="Remove" asp-route-id="@item.Id"
+                           class="btn btn-danger btn-sm">Remove</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,188 @@
+﻿@{
+    ViewData["Title"] = "About";
+}
+
+<style>
+    /* ===== ABOUT PREMIUM STYLE ===== */
+
+    .about-hero {
+        background: linear-gradient(135deg,#4f46e5,#06b6d4);
+        color: white;
+        text-align: center;
+        padding: 80px 20px;
+        border-radius: 0 0 28px 28px;
+        margin-bottom: 50px;
+        box-shadow: 0 20px 40px rgba(0,0,0,.15);
+    }
+
+        .about-hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .about-hero p {
+            font-size: 18px;
+            opacity: .9;
+        }
+
+    .about-content {
+        max-width: 1100px;
+        margin: auto;
+        padding: 0 20px 40px;
+    }
+
+    .about-section {
+        background: rgba(255,255,255,0.85);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 16px;
+        padding: 28px;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        transition: .3s;
+    }
+
+        .about-section:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 40px rgba(0,0,0,.12);
+        }
+
+        .about-section h2 {
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        .about-section p {
+            color: #374151;
+            line-height: 1.6;
+        }
+
+    .about-list {
+        list-style: none;
+        padding-left: 0;
+    }
+
+        .about-list li {
+            margin-bottom: 6px;
+            color: #374151;
+        }
+
+    .about-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .stat-item {
+        background: linear-gradient(135deg,#eef2ff,#ecfeff);
+        border: 1px solid rgba(79,70,229,0.25);
+        border-radius: 14px;
+        padding: 22px;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0,0,0,.08);
+        transition: .3s;
+    }
+
+        .stat-item:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-item h3 {
+            font-size: 28px;
+            color: #4f46e5;
+            margin-bottom: 4px;
+        }
+
+        .stat-item p {
+            color: #475569;
+            font-size: 14px;
+        }
+</style>
+
+<div class="user-page">
+
+    <!-- HERO -->
+    <section class="about-hero">
+        <h1>About EasyCart</h1>
+        <p>Your trusted online shopping destination</p>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="about-content">
+
+        <div class="about-section">
+            <h2>Our Story</h2>
+            <p>
+                EasyCart was founded with a simple mission: to make online shopping easy,
+                convenient, and affordable for everyone. We started as a small e-commerce
+                platform and have grown to serve thousands of customers worldwide.
+            </p>
+            <p>
+                Our commitment to excellence and customer satisfaction has made us one of
+                the most trusted online retailers in the industry.
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Mission</h2>
+            <p>
+                To provide high-quality products at competitive prices while delivering
+                exceptional customer service and a seamless shopping experience.
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Vision</h2>
+            <p>
+                To be the go-to online marketplace for electronics and accessories,
+                known for quality, innovation, and customer-centric approach.
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h2>Why Choose Us?</h2>
+            <ul class="about-list">
+                <li>✓ Wide selection of products</li>
+                <li>✓ Competitive prices</li>
+                <li>✓ Fast and secure checkout</li>
+                <li>✓ Reliable shipping</li>
+                <li>✓ Excellent customer support</li>
+                <li>✓ Easy returns and exchanges</li>
+                <li>✓ Regular deals and discounts</li>
+                <li>✓ Secure payment options</li>
+            </ul>
+        </div>
+
+        <div class="about-section">
+            <h2>Contact Us</h2>
+            <p>
+                <strong>Email:</strong> support@easycart.com<br />
+                <strong>Phone:</strong> 1-800-EASYCART<br />
+                <strong>Address:</strong> 123 Commerce Street, Tech City, TC 12345
+            </p>
+        </div>
+
+        <!-- STATS -->
+        <div class="about-stats">
+            <div class="stat-item">
+                <h3>10K+</h3>
+                <p>Products</p>
+            </div>
+            <div class="stat-item">
+                <h3>50K+</h3>
+                <p>Happy Customers</p>
+            </div>
+            <div class="stat-item">
+                <h3>100+</h3>
+                <p>Brands</p>
+            </div>
+            <div class="stat-item">
+                <h3>24/7</h3>
+                <p>Support</p>
+            </div>
+        </div>
+
+    </section>
+</div>

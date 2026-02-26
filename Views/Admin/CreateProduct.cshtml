@@ -1,0 +1,127 @@
+@{
+    ViewData["Title"] = "Add New Product";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex align-items-center gap-3">
+        <a href="/Admin/Products" class="btn btn-light rounded-circle shadow-sm text-muted d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+            ⬅️
+        </a>
+        <h2 class="fw-bold text-dark mb-0">Add New Product</h2>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Main Form Column -->
+    <div class="col-lg-8 mb-4">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4 p-md-5">
+                <h5 class="fw-bold mb-4 border-bottom pb-3">Basic Information</h5>
+                
+                <form>
+                    <!-- Product Name -->
+                    <div class="mb-4">
+                        <label for="productName" class="form-label fw-semibold text-dark mb-2">Product Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg bg-light border-0 shadow-none px-4 rounded-3" id="productName" placeholder="e.g. Wireless Noise-Canceling Headphones">
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <!-- Category -->
+                        <div class="col-md-6">
+                            <label for="category" class="form-label fw-semibold text-dark mb-2">Category <span class="text-danger">*</span></label>
+                            <select class="form-select form-select-lg bg-light border-0 shadow-none px-4 rounded-3" id="category">
+                                <option selected disabled>Select a category</option>
+                                <option value="1">Electronics</option>
+                                <option value="2">Clothing</option>
+                                <option value="3">Home & Garden</option>
+                                <option value="4">Toys</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Price -->
+                        <div class="col-md-6">
+                            <label for="price" class="form-label fw-semibold text-dark mb-2">Price ($) <span class="text-danger">*</span></label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light border-0 text-muted px-4 rounded-start-3">$</span>
+                                <input type="number" class="form-control bg-light border-0 shadow-none px-3 rounded-end-3" id="price" placeholder="0.00" step="0.01">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <label for="description" class="form-label fw-semibold text-dark mb-2">Description</label>
+                        <textarea class="form-control bg-light border-0 shadow-none p-4 rounded-3" id="description" rows="5" placeholder="Provide a detailed description of the product..."></textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Column (Image & Actions) -->
+    <div class="col-lg-4 mb-4">
+        <!-- Media Card -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-4 border-bottom pb-3">Product Media</h5>
+                
+                <!-- Image Upload Area -->
+                <div class="border border-2 border-dashed border-light rounded-4 text-center p-5 mb-3 position-relative bg-light custom-file-upload transition-all" style="cursor: pointer;">
+                    <div class="mb-3">
+                        <span class="bg-white rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                            📸
+                        </span>
+                    </div>
+                    <h6 class="fw-semibold text-dark mb-1">Upload Product Image</h6>
+                    <p class="text-muted small mb-0">Drag and drop or click to browse</p>
+                    <input type="file" class="position-absolute top-0 start-0 w-100 h-100 opacity-0" style="cursor: pointer;" accept="image/*">
+                </div>
+                
+                <p class="text-muted small text-center mb-0">
+                    Recommended size: 800x800px. Max size: 5MB.<br>
+                    Formats: JPG, PNG, WEBP.
+                </p>
+            </div>
+        </div>
+
+        <!-- Inventory / Status Card -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-4 border-bottom pb-3">Inventory</h5>
+                
+                <div class="mb-4">
+                    <label for="stock" class="form-label fw-semibold text-dark mb-2">Stock Quantity</label>
+                    <input type="number" class="form-control bg-light border-0 shadow-none px-4 rounded-3" id="stock" placeholder="0" min="0">
+                </div>
+                
+                <div class="mb-2">
+                    <label class="form-label fw-semibold text-dark mb-2">Status</label>
+                    <div class="form-check form-switch fs-5 p-0 d-flex align-items-center justify-content-between">
+                        <label class="form-check-label fs-6 text-muted" for="statusSwitch">Active (Visible)</label>
+                        <input class="form-check-input ms-0 shadow-sm" type="checkbox" role="switch" id="statusSwitch" checked>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-grid gap-3">
+            <button class="btn btn-primary btn-lg rounded-pill shadow-sm fw-semibold">
+                Save Product
+            </button>
+            <a href="/Admin/Products" class="btn btn-light btn-lg rounded-pill shadow-sm fw-semibold text-muted border">
+                Cancel
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .border-dashed {
+        border-style: dashed !important;
+    }
+    .custom-file-upload:hover {
+        background-color: #f1f3f5 !important;
+        border-color: #dee2e6 !important;
+    }
+</style>

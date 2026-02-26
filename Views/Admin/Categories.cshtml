@@ -1,0 +1,62 @@
+@model List<eays.Models.Category>
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Categories</h2>
+
+<div class="card-table">
+
+    <div class="table-header">
+        <h3>All Categories</h3>
+        <a asp-action="AddCategory" class="btn btn-edit">
+            + Add Category
+        </a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Icon</th>
+                <th>Name</th>
+                <th>Products</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr>
+                    <td>@c.Id</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(c.Icon))
+                        {
+                            <i class="@c.Icon" style="font-size:18px;color:#7b1fa2;"></i>
+                        }
+                        else
+                        {
+                            <i class="fa fa-tag" style="font-size:18px;color:#999;"></i>
+                        }
+                    </td>
+                    <td><strong>@c.Name</strong></td>
+                    <td>@c.Products.Count product(s)</td>
+                    <td class="text-end">
+                        <a asp-action="EditCategory" asp-route-id="@c.Id" class="btn-edit">Edit</a>
+                        <a asp-action="DeleteCategory" asp-route-id="@c.Id" class="btn-del"
+                           onclick="return confirm('Delete this category? Products will become uncategorized.')">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (!Model.Any())
+    {
+        <div style="text-align:center;padding:40px;color:#999;">
+            <i class="fa fa-tags" style="font-size:40px;display:block;margin-bottom:12px;"></i>
+            <p>No categories yet. Add your first category!</p>
+        </div>
+    }
+</div>

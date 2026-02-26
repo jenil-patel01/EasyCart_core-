@@ -1,0 +1,198 @@
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Dashboard</h2>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+<style>
+    .card-box {
+        border-radius: 12px;
+        color: #fff;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+        min-height: 110px;
+        transition: transform .2s, box-shadow .2s;
+    }
+
+    .card-box:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    .card-box .icon {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 32px;
+        opacity: 0.3;
+    }
+
+    .bg-purple  { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .bg-red     { background: linear-gradient(135deg, #ff4d4f, #e84393); }
+    .bg-blue    { background: linear-gradient(135deg, #39a9db, #667eea); }
+    .bg-green   { background: linear-gradient(135deg, #00b894, #00cec9); }
+    .bg-orange  { background: linear-gradient(135deg, #fdcb6e, #e17055); }
+    .bg-teal    { background: linear-gradient(135deg, #00cec9, #55efc4); }
+
+    .table-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .status-badge {
+        padding: 4px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #fff;
+    }
+
+    .status-Pending    { background: #fdcb6e; color: #856404; }
+    .status-Processing { background: #74b9ff; color: #0c5460; }
+    .status-Shipped    { background: #a29bfe; color: #fff; }
+    .status-Delivered  { background: #00b894; }
+    .status-Cancelled  { background: #ff7675; }
+
+    .btn-view {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 5px 14px;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all .2s;
+    }
+
+    .btn-view:hover {
+        box-shadow: 0 4px 12px rgba(102,126,234,.4);
+        color: #fff;
+        transform: translateY(-1px);
+    }
+</style>
+
+<div class="container-fluid mt-3">
+
+    <!-- STAT CARDS -->
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="card-box bg-purple">
+                <h6>PENDING ORDERS</h6>
+                <h3>@ViewBag.PendingOrders</h3>
+                <i class="fa fa-clock icon"></i>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card-box bg-blue">
+                <h6>PROCESSING</h6>
+                <h3>@ViewBag.ProcessingOrders</h3>
+                <i class="fa fa-sync icon"></i>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card-box bg-red">
+                <h6>CANCELLED</h6>
+                <h3>@ViewBag.CancelledOrders</h3>
+                <i class="fa fa-times-circle icon"></i>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card-box bg-green">
+                <h6>TODAY INCOME</h6>
+                <h3>$@(((decimal)ViewBag.TodayIncome).ToString("N0"))</h3>
+                <i class="fa fa-dollar-sign icon"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mt-1">
+        <div class="col-md-3">
+            <div class="card-box bg-green">
+                <h6>DELIVERED</h6>
+                <h3>@ViewBag.DeliveredOrders</h3>
+                <i class="fa fa-check-circle icon"></i>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card-box bg-orange">
+                <h6>TOTAL ORDERS</h6>
+                <h3>@ViewBag.TotalOrders</h3>
+                <i class="fa fa-bag-shopping icon"></i>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card-box bg-teal">
+                <h6>TOTAL REVENUE</h6>
+                <h3>$@(((decimal)ViewBag.TotalRevenue).ToString("N0"))</h3>
+                <i class="fa fa-coins icon"></i>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card-box bg-purple">
+                <h6>PRODUCTS / USERS</h6>
+                <h3>@ViewBag.TotalProducts / @ViewBag.TotalUsers</h3>
+                <i class="fa fa-users icon"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECENT ORDERS TABLE -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="table-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0 fw-bold">Recent Orders</h5>
+                    <a href="/Admin/Orders" class="btn-view">View All <i class="fa fa-arrow-right ms-1"></i></a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.RecentOrders != null)
+                            {
+                                foreach (eays.Models.Order order in ViewBag.RecentOrders)
+                                {
+                                    <tr>
+                                        <td><strong>#@order.Id</strong></td>
+                                        <td>@order.FullName</td>
+                                        <td>@order.OrderDate.ToString("dd MMM yyyy")</td>
+                                        <td>@(order.OrderItems?.Count ?? 0)</td>
+                                        <td><strong>$@order.TotalAmount.ToString("N2")</strong></td>
+                                        <td>
+                                            <span class="status-badge status-@order.Status">@order.Status</span>
+                                        </td>
+                                        <td>
+                                            <a href="/Admin/OrderDetail/@order.Id" class="btn-view">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

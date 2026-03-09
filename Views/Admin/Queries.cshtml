@@ -1,0 +1,107 @@
+@model List<eays.Models.ContactQuery>
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="queries-header">
+    <h2><i class="fa fa-envelope" style="color:#6f42c1;"></i> Contact Queries</h2>
+    <div class="query-stats">
+        <span class="query-stat stat-total">
+            <i class="fa fa-inbox me-1"></i> Total: @Model.Count
+        </span>
+        <span class="query-stat stat-unread">
+            <i class="fa fa-circle-exclamation me-1"></i> Unread: @Model.Count(q => !q.IsRead)
+        </span>
+        <span class="query-stat stat-read">
+            <i class="fa fa-check-circle me-1"></i> Read: @Model.Count(q => q.IsRead)
+        </span>
+    </div>
+</div>
+
+@if (TempData["QueryMessage"] != null)
+{
+    <div class="alert alert-success" style="border-radius:10px; font-weight:600;">
+        <i class="fa fa-check-circle me-1"></i> @TempData["QueryMessage"]
+    </div>
+}
+
+@if (Model.Any())
+{
+    @foreach (var q in Model)
+    {
+        <div class="query-card @(q.IsRead ? "read" : "")">
+            <div class="query-card-header">
+                <div class="query-sender">
+                    <div class="sender-avatar">
+                        @(q.Name.Length > 0 ? q.Name[0].ToString().ToUpper() : "?")
+                    </div>
+                    <div>
+                        <div class="sender-name">@q.Name</div>
+                        <div class="sender-email">@q.Email</div>
+                    </div>
+                </div>
+                <div class="query-meta">
+                    <span class="query-date">
+                        <i class="fa fa-clock me-1"></i>
+                        @q.SubmittedAt.ToString("MMM dd, yyyy &#8212; hh:mm tt")
+                    </span>
+                    @if (q.IsRead)
+                    {
+                        <span class="query-badge badge-read">
+                            <i class="fa fa-check me-1"></i>Read
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="query-badge badge-unread">
+                            <i class="fa fa-circle me-1"></i>New
+                        </span>
+                    }
+                </div>
+            </div>
+
+            <div class="query-card-body">
+                <div class="query-subject">
+                    <i class="fa fa-tag me-1" style="color:#667eea;"></i> @q.Subject
+                </div>
+                <div class="query-message">@q.Message</div>
+            </div>
+
+            <div class="query-card-footer">
+                <form asp-controller="Admin" asp-action="MarkQueryRead" method="post" style="display:inline;">
+                    <input type="hidden" name="id" value="@q.Id" />
+                    <button type="submit" class="btn-mark">
+                        @if (q.IsRead)
+                        {
+                            <i class="fa fa-envelope me-1"></i> <text>Mark Unread</text>
+                        }
+                        else
+                        {
+                            <i class="fa fa-envelope-open me-1"></i> <text>Mark Read</text>
+                        }
+                    </button>
+                </form>
+
+                <a href="mailto:@q.Email?subject=Re: @q.Subject" class="btn-reply">
+                    <i class="fa fa-reply me-1"></i> Reply
+                </a>
+
+                <form asp-controller="Admin" asp-action="DeleteQuery" method="post" style="display:inline;"
+                      onsubmit="return confirm('Delete this query?')">
+                    <input type="hidden" name="id" value="@q.Id" />
+                    <button type="submit" class="btn-delete-query">
+                        <i class="fa fa-trash me-1"></i> Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="empty-queries">
+        <i class="fa fa-inbox"></i>
+        <h5 style="color:#636e72; font-weight:700;">No queries yet</h5>
+        <p style="font-size:14px;">Contact form submissions from users will appear here.</p>
+    </div>
+}

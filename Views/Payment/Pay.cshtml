@@ -1,0 +1,143 @@
+@model eays.Models.RazorpayPaymentViewModel
+@{
+    ViewData["Title"] = "Payment";
+}
+
+<div class="payment-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+                <!-- Steps -->
+                <div class="pay-steps">
+                    <div class="pay-step done">
+                        <span class="pay-step-num"><i class="fa fa-check" style="font-size:11px;"></i></span> Cart
+                    </div>
+                    <div class="pay-step-line done"></div>
+                    <div class="pay-step done">
+                        <span class="pay-step-num"><i class="fa fa-check" style="font-size:11px;"></i></span> Checkout
+                    </div>
+                    <div class="pay-step-line active"></div>
+                    <div class="pay-step active">
+                        <span class="pay-step-num">3</span> Payment
+                    </div>
+                    <div class="pay-step-line pending"></div>
+                    <div class="pay-step pending">
+                        <span class="pay-step-num">4</span> Done
+                    </div>
+                </div>
+
+                <!-- Payment Card -->
+                <div class="pay-card">
+                    <div class="pay-icon">
+                        <i class="fa fa-credit-card"></i>
+                    </div>
+
+                    <h2 class="pay-title">Complete Payment</h2>
+                    <p class="pay-subtitle">
+                        Order <strong>#@Model.OrderId</strong> — Click below to pay securely via Razorpay
+                    </p>
+
+                    <!-- Order Summary -->
+                    <div class="pay-summary">
+                        <div class="pay-summary-row">
+                            <span>Order ID</span>
+                            <strong>#@Model.OrderId</strong>
+                        </div>
+                        <div class="pay-summary-row">
+                            <span>Name</span>
+                            <strong>@Model.CustomerName</strong>
+                        </div>
+                        <div class="pay-summary-row">
+                            <span>Email</span>
+                            <strong>@Model.CustomerEmail</strong>
+                        </div>
+                        <div class="pay-summary-row total">
+                            <span>Amount to Pay</span>
+                            <span class="pay-val">&#8377;@Model.Amount.ToString("N2")</span>
+                        </div>
+                    </div>
+
+                    <!-- Razorpay Pay Button -->
+                    <button type="button" class="btn-razorpay" id="payBtn">
+                        <i class="fa fa-lock"></i> Pay &#8377;@Model.Amount.ToString("N2")
+                    </button>
+
+                    <div class="razorpay-logo">
+                        <i class="fa fa-shield-halved"></i> Powered by Razorpay
+                    </div>
+
+                    <div class="security-note">
+                        <i class="fa fa-lock"></i>
+                        Your payment is secured with 256-bit SSL encryption
+                    </div>
+
+                    <a href="/Home/Products" class="btn-back-cart">
+                        <i class="fa fa-arrow-left me-1"></i> Continue Shopping
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Processing Overlay -->
+<div class="processing-overlay" id="processingOverlay">
+    <i class="fa fa-spinner fa-spin"></i>
+    <p>Verifying payment, please wait...</p>
+</div>
+
+<!-- Hidden form to post payment result -->
+<form id="paymentForm" method="post" asp-controller="Payment" asp-action="PaymentSuccess">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="orderId" value="@Model.OrderId" />
+    <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id" />
+    <input type="hidden" name="razorpay_order_id" id="razorpay_order_id" />
+    <input type="hidden" name="razorpay_signature" id="razorpay_signature" />
+</form>
+
+<!-- Razorpay Checkout Script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+    var options = {
+        "key": "@Model.RazorpayKey",
+        "amount": "@((int)(Model.Amount * 100))",
+        "currency": "@Model.Currency",
+        "name": "EasyCart",
+        "description": "@Model.Description",
+        "order_id": "@Model.RazorpayOrderId",
+
+        handler: function (response) {
+
+            // ? CORRECT IDS
+            document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+            document.getElementById('razorpay_order_id').value = response.razorpay_order_id;
+            document.getElementById('razorpay_signature').value = response.razorpay_signature;
+
+            document.getElementById('processingOverlay').classList.add('show');
+
+            document.getElementById('paymentForm').submit();
+        },
+
+        "prefill": {
+            "name": "@Model.CustomerName",
+            "email": "@Model.CustomerEmail"
+        },
+        "theme": {
+            "color": "#667eea"
+        }
+    };
+
+    var rzp = new Razorpay(options);
+
+    document.getElementById('payBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+        rzp.open();
+    });
+
+    rzp.on('payment.failed', function (response) {
+        alert('Payment failed: ' + response.error.description);
+    });
+</script>

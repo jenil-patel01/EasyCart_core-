@@ -273,6 +273,7 @@ namespace eays.Controllers
             }
 
             product.Name = model.Name;
+            product.Description = model.Description;
             product.Price = model.Price;
             product.Stock = model.Stock;
             product.CategoryId = model.CategoryId;
@@ -318,15 +319,45 @@ namespace eays.Controllers
             return RedirectToAction("Users");
         }
 
+        // ================= CONTACT QUERIES =================
+        public async Task<IActionResult> Queries()
+        {
+            var queries = await _context.ContactQueries
+                .OrderByDescending(q => q.SubmittedAt)
+                .ToListAsync();
+            return View(queries);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MarkQueryRead(int id)
+        {
+            var query = await _context.ContactQueries.FindAsync(id);
+            if (query != null)
+            {
+                query.IsRead = !query.IsRead;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Queries");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteQuery(int id)
+        {
+            var query = await _context.ContactQueries.FindAsync(id);
+            if (query != null)
+            {
+                _context.ContactQueries.Remove(query);
+                await _context.SaveChangesAsync();
+            }
+            TempData["QueryMessage"] = "Query deleted successfully";
+            return RedirectToAction("Queries");
+        }
+
         // ================= LOGOUT =================
         public async Task<IActionResult> Logout()
         {
-            // clear authentication cookie
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            // clear session (optional)
             HttpContext.Session.Clear();
-
             return RedirectToAction("Login", "Account");
         }
     }

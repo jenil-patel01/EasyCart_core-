@@ -1,5 +1,6 @@
 using eays.Data;
 using eays.Models;
+using eays.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
+// ? Add Email Service
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Add MVC
 builder.Services.AddControllersWithViews();

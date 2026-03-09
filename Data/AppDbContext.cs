@@ -20,6 +20,7 @@ namespace eays.Data
         
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<ContactQuery> ContactQueries { get; set; }
 
         // ===== RELATIONS =====
         protected override void OnModelCreating(ModelBuilder builder)

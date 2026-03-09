@@ -2,8 +2,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
+using System.Text.Encodings.Web;
 using eays.Models;
 using eays.Data;
+using eays.Services;
 
 namespace eays.Controllers
 {
@@ -12,14 +16,17 @@ namespace eays.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly AppDbContext _context;
+        private readonly IEmailService _emailService;
 
         public AccountController(UserManager<ApplicationUser> userManager,
                                  SignInManager<ApplicationUser> signInManager,
-                                 AppDbContext context)
+                                 AppDbContext context,
+                                 IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _emailService = emailService;
         }
 
         // ? USER PROFILE PAGE
@@ -180,6 +187,140 @@ namespace eays.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login");
+        }
+
+        // ========== FORGOT PASSWORD =========
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            
+            // Don't reveal that the user does not exist
+            if (user == null)
+            {
+                return RedirectToAction("ForgotPasswordConfirmation");
+            }
+
+            // Generate password reset token
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+
+            // Create reset password link
+            var callbackUrl = Url.Action(
+                "ResetPassword",
+                "Account",
+                new { email = model.Email, token = encodedToken },
+                protocol: Request.Scheme);
+
+            // Send email
+            var emailBody = $@"
+                <html>
+                <head>
+                    <style>
+                        body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
+                        .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
+                        .header {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
+                        .content {{ background: #f8f9fa; padding: 30px; border-radius: 0 0 10px 10px; }}
+                        .button {{ display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; margin: 20px 0; font-weight: bold; }}
+                        .footer {{ text-align: center; margin-top: 20px; color: #666; font-size: 12px; }}
+                    </style>
+                </head>
+                <body>
+                    <div class='container'>
+                        <div class='header'>
+                            <h1>?? EasyCart</h1>
+                            <p>Password Reset Request</p>
+                        </div>
+                        <div class='content'>
+                            <h2>Hello, {user.FullName}!</h2>
+                            <p>We received a request to reset your password. Click the button below to reset it:</p>
+                            <p style='text-align: center;'>
+                                <a href='{HtmlEncoder.Default.Encode(callbackUrl)}' class='button'>Reset Password</a>
+                            </p>
+                            <p>If you didn't request a password reset, you can safely ignore this email.</p>
+                            <p><strong>Note:</strong> This link will expire in 1 hour.</p>
+                        </div>
+                        <div class='footer'>
+                            <p>© 2026 EasyCart. All rights reserved.</p>
+                        </div>
+                    </div>
+                </body>
+                </html>";
+
+            await _emailService.SendEmailAsync(model.Email, "Reset Your Password - EasyCart", emailBody);
+
+            return RedirectToAction("ForgotPasswordConfirmation");
+        }
+
+        [HttpGet]
+        public IActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+
+        // ========== RESET PASSWORD =========
+        [HttpGet]
+        public IActionResult ResetPassword(string email, string token)
+        {
+            if (email == null || token == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var model = new ResetPasswordViewModel
+            {
+                Email = email,
+                Token = token
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return RedirectToAction("ResetPasswordConfirmation");
+            }
+
+            // Decode token
+            var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.Token));
+
+            var result = await _userManager.ResetPasswordAsync(user, decodedToken, model.Password);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("ResetPasswordConfirmation");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
         }
     }
 }

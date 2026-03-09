@@ -46,13 +46,13 @@
                         <td>@item.Product?.Name</td>
 
                         <td>
-                            @(item.Product?.Price.ToString("C") ?? "$0.00")
+                            &#8377;@((item.Product?.Price ?? 0).ToString("N2"))
                         </td>
 
                         <td>@item.Quantity</td>
 
                         <td>
-                            @(((item.Product?.Price ?? 0) * item.Quantity).ToString("C"))
+                            &#8377;@(((item.Product?.Price ?? 0) * item.Quantity).ToString("N2"))
                         </td>
 
                         <td>
@@ -82,7 +82,7 @@
                 <h5>
                     Total:
                     <span class="text-success">
-                        @Model.Sum(i => (i.Product?.Price ?? 0) * i.Quantity).ToString("C")
+                        &#8377;@Model.Sum(i => (i.Product?.Price ?? 0) * i.Quantity).ToString("N2")
                     </span>
                 </h5>
 

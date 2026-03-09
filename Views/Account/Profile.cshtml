@@ -3,381 +3,24 @@
     ViewData["Title"] = "My Profile";
 }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-
-<style>
-    /* ===== PAGE BACKGROUND ===== */
-    .profile-hero {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        padding: 40px 0 60px;
-    }
-
-    /* ===== HEADER CARD ===== */
-    .profile-header {
-        background: #fff;
-        border-radius: 20px;
-        padding: 0;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-        overflow: hidden;
-    }
-
-    .profile-header-banner {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        height: 130px;
-        position: relative;
-    }
-
-    .profile-header-body {
-        text-align: center;
-        padding: 0 30px 30px;
-        margin-top: 0;
-    }
-
-    .profile-avatar {
-        width: 110px;
-        height: 110px;
-        border-radius: 50%;
-        border: 5px solid #fff;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.18);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 44px;
-        font-weight: 800;
-        color: #fff;
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    }
-
-    .profile-name {
-        font-size: 26px;
-        font-weight: 800;
-        color: #2d3436;
-        margin-top: 14px;
-    }
-
-    .profile-email-text {
-        color: #636e72;
-        font-size: 14px;
-        margin-top: 2px;
-    }
-
-    .profile-verified {
-        display: inline-block;
-        background: linear-gradient(135deg, #00b894, #00cec9);
-        color: #fff;
-        padding: 4px 16px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: .5px;
-        margin-top: 10px;
-    }
-
-    /* ===== STAT CARDS ===== */
-    .stat-card {
-        background: #fff;
-        border-radius: 16px;
-        padding: 24px 20px;
-        text-align: center;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-        transition: all .3s ease;
-        border: 1px solid rgba(0,0,0,0.03);
-    }
-
-    .stat-card:hover {
-        transform: translateY(-7px);
-        box-shadow: 0 18px 45px rgba(0,0,0,0.14);
-    }
-
-    .stat-icon {
-        width: 56px;
-        height: 56px;
-        border-radius: 14px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        color: #fff;
-        margin-bottom: 12px;
-    }
-
-    .stat-icon.purple { background: linear-gradient(135deg, #667eea, #764ba2); }
-    .stat-icon.green  { background: linear-gradient(135deg, #00b894, #00cec9); }
-    .stat-icon.orange { background: linear-gradient(135deg, #fdcb6e, #e17055); }
-    .stat-icon.pink   { background: linear-gradient(135deg, #fd79a8, #e84393); }
-
-    .stat-value {
-        font-size: 30px;
-        font-weight: 800;
-        color: #2d3436;
-    }
-
-    .stat-label {
-        font-size: 12px;
-        color: #b2bec3;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: .5px;
-        margin-top: 2px;
-    }
-
-    /* ===== GLASS CARD ===== */
-    .glass-card {
-        background: #fff;
-        border-radius: 16px;
-        padding: 30px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-    }
-
-    .glass-card h5 {
-        font-weight: 800;
-        font-size: 18px;
-        color: #2d3436;
-        margin-bottom: 22px;
-    }
-
-    /* ===== INFO ROW ===== */
-    .info-row {
-        display: flex;
-        align-items: center;
-        padding: 14px 0;
-        border-bottom: 1px solid #f1f2f6;
-    }
-
-    .info-row:last-child { border-bottom: none; }
-
-    .info-icon {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-        color: #fff;
-        margin-right: 14px;
-        flex-shrink: 0;
-    }
-
-    .info-label {
-        font-size: 11px;
-        color: #b2bec3;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: .5px;
-    }
-
-    .info-value {
-        font-size: 15px;
-        font-weight: 600;
-        color: #2d3436;
-    }
-
-    /* ===== ORDERS TABLE ===== */
-    .order-tbl {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0 8px;
-    }
-
-    .order-tbl thead th {
-        background: #f8f9fa;
-        padding: 12px 16px;
-        font-size: 11px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: .5px;
-        color: #b2bec3;
-        border: none;
-    }
-
-    .order-tbl thead th:first-child { border-radius: 10px 0 0 10px; }
-    .order-tbl thead th:last-child  { border-radius: 0 10px 10px 0; }
-
-    .order-tbl tbody tr {
-        background: #fff;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-        transition: all .25s;
-    }
-
-    .order-tbl tbody tr:hover {
-        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-        transform: translateY(-2px);
-    }
-
-    .order-tbl tbody td {
-        padding: 16px;
-        vertical-align: middle;
-        font-size: 14px;
-        color: #2d3436;
-        border-top: 1px solid #f1f2f6;
-        border-bottom: 1px solid #f1f2f6;
-    }
-
-    .order-tbl tbody td:first-child {
-        border-left: 1px solid #f1f2f6;
-        border-radius: 10px 0 0 10px;
-    }
-
-    .order-tbl tbody td:last-child {
-        border-right: 1px solid #f1f2f6;
-        border-radius: 0 10px 10px 0;
-    }
-
-    .order-badge {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: #fff;
-        padding: 4px 14px;
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 13px;
-    }
-
-    .order-amount {
-        font-weight: 800;
-        color: #00b894;
-        font-size: 15px;
-    }
-
-    .product-thumb {
-        width: 38px;
-        height: 38px;
-        border-radius: 8px;
-        object-fit: cover;
-        border: 2px solid #f1f2f6;
-        margin-right: 4px;
-    }
-
-    .product-thumb-placeholder {
-        width: 38px;
-        height: 38px;
-        border-radius: 8px;
-        background: #f1f2f6;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 4px;
-        font-size: 13px;
-        color: #b2bec3;
-    }
-
-    .extra-badge {
-        background: #dfe6e9;
-        color: #636e72;
-        padding: 2px 8px;
-        border-radius: 6px;
-        font-size: 11px;
-        font-weight: 700;
-    }
-
-    .empty-state {
-        text-align: center;
-        padding: 50px 20px;
-        color: #b2bec3;
-    }
-
-    .empty-state i {
-        font-size: 56px;
-        color: #dfe6e9;
-        display: block;
-        margin-bottom: 16px;
-    }
-
-    /* ===== EDIT FORM ===== */
-    .edit-form .form-label {
-        font-weight: 600;
-        font-size: 13px;
-        color: #636e72;
-        text-transform: uppercase;
-        letter-spacing: .3px;
-    }
-
-    .edit-form .form-control {
-        border-radius: 10px;
-        padding: 12px 16px;
-        border: 2px solid #f1f2f6;
-        transition: border-color .2s;
-    }
-
-    .edit-form .form-control:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102,126,234,.15);
-    }
-
-    .btn-gradient {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: #fff;
-        border: none;
-        padding: 12px 32px;
-        border-radius: 12px;
-        font-weight: 700;
-        font-size: 15px;
-        transition: all .3s;
-    }
-
-    .btn-gradient:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(102,126,234,.4);
-        color: #fff;
-    }
-
-    .btn-outline-shop {
-        border: 2px solid #667eea;
-        color: #667eea;
-        padding: 10px 28px;
-        border-radius: 12px;
-        font-weight: 700;
-        text-decoration: none;
-        transition: all .3s;
-        display: inline-block;
-    }
-
-    .btn-outline-shop:hover {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: #fff;
-        border-color: transparent;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(102,126,234,.3);
-    }
-
-    /* ===== TAB PILLS ===== */
-    .nav-pills .nav-link {
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 14px;
-        color: #636e72;
-        padding: 10px 20px;
-        transition: all .2s;
-    }
-
-    .nav-pills .nav-link.active {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: #fff;
-        box-shadow: 0 6px 18px rgba(102,126,234,.3);
-    }
-
-    .nav-pills .nav-link:hover:not(.active) {
-        background: #f1f2f6;
-    }
-</style>
-
 <div class="profile-hero">
     <div class="container">
 
-        <!-- ===== HEADER ===== -->
+        <!-- HEADER -->
         <div class="row justify-content-center mb-4">
             <div class="col-lg-10">
                 <div class="profile-header">
-                  <!-- <div class="profile-header-banner"></div>-->
                     <div class="profile-header-body">
                         <div class="profile-avatar">
                             @(Model.FullName.Length > 0 ? Model.FullName[0].ToString().ToUpper() : "U")
                         </div>
+
                         <div class="profile-name">@Model.FullName</div>
+
                         <div class="profile-email-text">
                             <i class="fa fa-envelope me-1"></i> @Model.Email
                         </div>
+
                         <span class="profile-verified">
                             <i class="fa fa-check-circle me-1"></i> Verified Member
                         </span>
@@ -386,237 +29,162 @@
             </div>
         </div>
 
-        <!-- ===== STATS ===== -->
+
+        <!-- STATS -->
         <div class="row justify-content-center mb-4">
             <div class="col-lg-10">
+
                 <div class="row g-3">
+
+                    <!-- TOTAL ORDERS -->
                     <div class="col-6 col-md-3">
                         <div class="stat-card">
-                            <div class="stat-icon purple"><i class="fa fa-bag-shopping"></i></div>
-                            <div class="stat-value">@Model.TotalOrders</div>
-                            <div class="stat-label">Total Orders</div>
+                            <div class="stat-icon purple">
+                                <i class="fa fa-bag-shopping"></i>
+                            </div>
+
+                            <div class="stat-value">
+                                @Model.TotalOrders
+                            </div>
+
+                            <div class="stat-label">
+                                Total Orders
+                            </div>
                         </div>
                     </div>
+
+
+                    <!-- TOTAL SPENT -->
                     <div class="col-6 col-md-3">
                         <div class="stat-card">
-                            <div class="stat-icon green"><i class="fa fa-dollar-sign"></i></div>
-                            <div class="stat-value">$@Model.TotalSpent.ToString("N0")</div>
-                            <div class="stat-label">Total Spent</div>
+                            <div class="stat-icon green">
+                                <i class="fa fa-indian-rupee-sign"></i>
+                            </div>
+
+                            <div class="stat-value">
+                                &#8377;@Model.TotalSpent.ToString("N0")
+                            </div>
+
+                            <div class="stat-label">
+                                Total Spent
+                            </div>
                         </div>
                     </div>
+
+
+                    <!-- CART COUNT -->
                     <div class="col-6 col-md-3">
                         <div class="stat-card">
-                            <div class="stat-icon orange"><i class="fa fa-cart-shopping"></i></div>
-                            <div class="stat-value">@Model.CartItemsCount</div>
-                            <div class="stat-label">In Cart</div>
+                            <div class="stat-icon orange">
+                                <i class="fa fa-cart-shopping"></i>
+                            </div>
+
+                            <div class="stat-value">
+                                @Model.CartItemsCount
+                            </div>
+
+                            <div class="stat-label">
+                                In Cart
+                            </div>
                         </div>
                     </div>
+
+
+                    <!-- WISHLIST COUNT -->
                     <div class="col-6 col-md-3">
                         <div class="stat-card">
-                            <div class="stat-icon pink"><i class="fa fa-heart"></i></div>
-                            <div class="stat-value">@Model.WishlistCount</div>
-                            <div class="stat-label">Wishlist</div>
+                            <div class="stat-icon pink">
+                                <i class="fa fa-heart"></i>
+                            </div>
+
+                            <div class="stat-value">
+                                @Model.WishlistCount
+                            </div>
+
+                            <div class="stat-label">
+                                Wishlist
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
 
-        <!-- ===== TABS: INFO + ORDERS + EDIT ===== -->
+
+        <!-- RECENT ORDERS -->
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="glass-card">
 
-                    @if (TempData["ProfileMessage"] != null)
+                    <h5 class="mb-3">
+                        <i class="fa fa-clock-rotate-left me-2"></i>
+                        Recent Orders
+                    </h5>
+
+                    @if (Model.RecentOrders.Any())
                     {
-                        <div class="alert alert-success alert-dismissible fade show" role="alert"
-                             style="border-radius:12px; border:none; background:linear-gradient(135deg,#00b894,#00cec9); color:#fff; font-weight:600;">
-                            <i class="fa fa-check-circle me-2"></i> @TempData["ProfileMessage"]
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+                        <div class="table-responsive">
+
+                            <table class="table table-hover">
+
+                                <thead>
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Date</th>
+                                        <th>Items</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    @foreach (var order in Model.RecentOrders)
+                                    {
+                                        <tr>
+
+                                            <td>
+                                                <strong>#@order.Id</strong>
+                                            </td>
+
+                                            <td>
+                                                @order.OrderDate.ToString("MMM dd, yyyy")
+                                            </td>
+
+                                            <td>
+                                                @(order.OrderItems?.Count ?? 0) items
+                                            </td>
+
+                                            <td>
+                                                <strong>
+                                                    &#8377;@order.TotalAmount.ToString("N2")
+                                                </strong>
+                                            </td>
+
+                                        </tr>
+                                    }
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+
+                            <i class="fa fa-box-open fa-3x mb-3 text-muted"></i>
+
+                            <h6>No orders yet</h6>
+
+                            <a href="/Home/Products" class="btn btn-primary mt-2">
+                                Browse Products
+                            </a>
+
                         </div>
                     }
 
-                    <ul class="nav nav-pills mb-4" id="profileTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="info-tab" data-bs-toggle="pill"
-                                    data-bs-target="#info-pane" type="button">
-                                <i class="fa fa-user me-1"></i> My Info
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="orders-tab" data-bs-toggle="pill"
-                                    data-bs-target="#orders-pane" type="button">
-                                <i class="fa fa-clock-rotate-left me-1"></i> Recent Orders
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="edit-tab" data-bs-toggle="pill"
-                                    data-bs-target="#edit-pane" type="button">
-                                <i class="fa fa-pen-to-square me-1"></i> Edit Profile
-                            </button>
-                        </li>
-                    </ul>
-
-                    <div class="tab-content">
-
-                        <!-- ===== TAB 1: ACCOUNT INFO ===== -->
-                        <div class="tab-pane fade show active" id="info-pane" role="tabpanel">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="info-row">
-                                        <div class="info-icon" style="background:linear-gradient(135deg,#667eea,#764ba2);">
-                                            <i class="fa fa-user"></i>
-                                        </div>
-                                        <div>
-                                            <div class="info-label">Full Name</div>
-                                            <div class="info-value">@Model.FullName</div>
-                                        </div>
-                                    </div>
-                                    <div class="info-row">
-                                        <div class="info-icon" style="background:linear-gradient(135deg,#00b894,#00cec9);">
-                                            <i class="fa fa-envelope"></i>
-                                        </div>
-                                        <div>
-                                            <div class="info-label">Email Address</div>
-                                            <div class="info-value">@Model.Email</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="info-row">
-                                        <div class="info-icon" style="background:linear-gradient(135deg,#fdcb6e,#e17055);">
-                                            <i class="fa fa-phone"></i>
-                                        </div>
-                                        <div>
-                                            <div class="info-label">Phone Number</div>
-                                            <div class="info-value">
-                                                @(string.IsNullOrEmpty(Model.PhoneNumber) ? "Not set" : Model.PhoneNumber)
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="info-row">
-                                        <div class="info-icon" style="background:linear-gradient(135deg,#fd79a8,#e84393);">
-                                            <i class="fa fa-location-dot"></i>
-                                        </div>
-                                        <div>
-                                            <div class="info-label">Address</div>
-                                            <div class="info-value">
-                                                @(string.IsNullOrEmpty(Model.Address) ? "Not set" : Model.Address)
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="text-center mt-4">
-                                <a href="/Home/Products" class="btn-outline-shop">
-                                    <i class="fa fa-shopping-bag me-1"></i> Continue Shopping
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- ===== TAB 2: RECENT ORDERS ===== -->
-                        <div class="tab-pane fade" id="orders-pane" role="tabpanel">
-                            @if (Model.RecentOrders.Any())
-                            {
-                                <div class="table-responsive">
-                                    <table class="order-tbl">
-                                        <thead>
-                                            <tr>
-                                                <th>Order</th>
-                                                <th>Date</th>
-                                                <th>Items</th>
-                                                <th>Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var order in Model.RecentOrders)
-                                            {
-                                                <tr>
-                                                    <td><span class="order-badge">#@order.Id</span></td>
-                                                    <td>
-                                                        <i class="fa fa-calendar-day me-1" style="color:#b2bec3;"></i>
-                                                        @order.OrderDate.ToString("MMM dd, yyyy")
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center flex-wrap gap-1">
-                                                            @if (order.OrderItems != null)
-                                                            {
-                                                                @foreach (var item in order.OrderItems.Take(3))
-                                                                {
-                                                                    if (!string.IsNullOrEmpty(item.Product?.ImageUrl))
-                                                                    {
-                                                                        <img src="@item.Product.ImageUrl"
-                                                                             class="product-thumb"
-                                                                             alt="@item.Product.Name"
-                                                                             title="@item.Product.Name x@item.Quantity" />
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <span class="product-thumb-placeholder"
-                                                                              title="@(item.Product?.Name ?? "Product") x@item.Quantity">
-                                                                            <i class="fa fa-box"></i>
-                                                                        </span>
-                                                                    }
-                                                                }
-                                                                @if (order.OrderItems.Count > 3)
-                                                                {
-                                                                    <span class="extra-badge">+@(order.OrderItems.Count - 3)</span>
-                                                                }
-                                                            }
-                                                        </div>
-                                                    </td>
-                                                    <td><span class="order-amount">$@order.TotalAmount.ToString("N2")</span></td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="empty-state">
-                                    <i class="fa fa-box-open"></i>
-                                    <h6 class="fw-bold" style="color:#636e72;">No orders yet</h6>
-                                    <p>Start shopping to see your orders here!</p>
-                                    <a href="/Home/Products" class="btn-outline-shop mt-2">
-                                        <i class="fa fa-shopping-bag me-1"></i> Browse Products
-                                    </a>
-                                </div>
-                            }
-                        </div>
-
-                        <!-- ===== TAB 3: EDIT PROFILE ===== -->
-                        <div class="tab-pane fade" id="edit-pane" role="tabpanel">
-                            <form asp-controller="Account" asp-action="Profile" method="post" class="edit-form">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Full Name</label>
-                                        <input asp-for="FullName" class="form-control" placeholder="Enter your name" />
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Email</label>
-                                        <input value="@Model.Email" class="form-control" readonly
-                                               style="background:#f8f9fa; cursor:not-allowed;" />
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Phone Number</label>
-                                        <input asp-for="PhoneNumber" class="form-control" placeholder="Enter phone" />
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Address</label>
-                                        <input asp-for="Address" class="form-control" placeholder="Enter address" />
-                                    </div>
-                                </div>
-                                <div class="text-end mt-2">
-                                    <button type="submit" class="btn-gradient">
-                                        <i class="fa fa-save me-1"></i> Save Changes
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
                 </div>
             </div>
         </div>

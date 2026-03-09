@@ -1,0 +1,191 @@
+/* =========================
+   ADMIN LAYOUT
+========================= */
+body{margin:0;font-family:Segoe UI,Arial;background:#f4f5f7}
+.layout{display:flex;height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:240px;background:linear-gradient(180deg,#7b1fa2,#512da8);color:white;padding:20px 0}
+.logo{font-size:22px;font-weight:600;padding:0 25px 20px}
+.sidebar nav a{display:flex;gap:10px;padding:12px 25px;color:white;text-decoration:none;font-size:15px}
+.sidebar nav a:hover{background:rgba(255,255,255,.15)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column}
+
+/* TOPBAR */
+.topbar{height:60px;background:white;display:flex;align-items:center;justify-content:space-between;padding:0 25px;border-bottom:1px solid #eee}
+.topbar input{border:1px solid #ddd;border-radius:20px;padding:8px 15px}
+.user{display:flex;align-items:center;gap:10px}
+.user img{border-radius:50%}
+
+/* CONTENT */
+.content{padding:25px}
+
+/* CARDS */
+.cards{display:flex;gap:20px}
+.card{flex:1;padding:20px;border-radius:12px;color:white;font-weight:500}
+.pink{background:linear-gradient(45deg,#ff6a88,#ff99ac)}
+.blue{background:linear-gradient(45deg,#36d1dc,#5b86e5)}
+.green{background:linear-gradient(45deg,#00b09b,#96c93d)}
+.card h3{margin:0 0 10px;font-size:16px}
+.card p{font-size:22px;margin:0}
+
+/* PRODUCT TABLE */
+.card-table{background:white;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.table-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.btn-add{background:linear-gradient(45deg,#7b1fa2,#512da8);color:white;padding:8px 14px;border-radius:6px;text-decoration:none;font-size:14px}
+table{width:100%;border-collapse:collapse}
+thead{background:#f4f5f7}
+th,td{padding:10px;text-align:left;border-bottom:1px solid #eee;font-size:14px}
+.btn-edit{background:linear-gradient(135deg,#4e73df,#6f42c1);color:#fff;padding:8px 18px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;margin-right:8px;display:inline-block;box-shadow:0 3px 8px rgba(0,0,0,0.12);transition:0.2s ease}
+.btn-edit:hover{transform:translateY(-1px);box-shadow:0 5px 12px rgba(0,0,0,0.18);color:#fff}
+.btn-del{background:linear-gradient(135deg,#ff4d6d,#e03131);color:#fff;padding:8px 18px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;display:inline-block;box-shadow:0 3px 8px rgba(0,0,0,0.12);transition:0.2s ease}
+.btn-del:hover{transform:translateY(-1px);box-shadow:0 5px 12px rgba(0,0,0,0.18);color:#fff}
+.text-end{text-align:right}
+.admin-content{padding:30px}
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.card-admin{background:#fff;padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.08);width:500px}
+.form-row{display:flex;flex-direction:column;margin-bottom:18px}
+.form-row label{font-weight:600;margin-bottom:6px}
+.input-admin{padding:10px;border-radius:6px;border:1px solid #ddd;font-size:14px}
+.input-admin:focus{border-color:#7b2cbf;outline:none}
+.form-actions{margin-top:15px;display:flex;gap:10px}
+.btn-primary-admin{background:#7b2cbf;color:#fff;border:none;padding:10px 18px;border-radius:6px;cursor:pointer}
+.btn-primary-admin:hover{background:#6923a8}
+.btn-light{background:#eee;color:#333;padding:10px 18px;border-radius:6px;text-decoration:none}
+
+/* EDIT PRODUCT */
+.admin-card{background:#fff;border-radius:12px;padding:25px 30px;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+.admin-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.admin-card-header h2{margin:0;font-weight:600}
+.admin-form .form-grid{display:flex;gap:40px}
+.form-left{flex:1}
+.form-right{width:220px}
+.form-group{margin-bottom:18px}
+.form-group label{font-weight:600;margin-bottom:6px;display:block}
+.form-control{width:100%;padding:9px 10px;border:1px solid #ddd;border-radius:6px}
+.image-preview{background:#f5f5f7;border-radius:10px;padding:15px;text-align:center}
+.image-preview img{max-width:100%;height:auto}
+.btn-purple{background:#6f42c1;color:#fff;border:none;padding:10px 18px;border-radius:6px;margin-right:10px}
+.btn-purple:hover{background:#5a32a3}
+
+/* =========================
+   ADMIN DASHBOARD (Index)
+========================= */
+.card-box{border-radius:12px;color:#fff;padding:20px;position:relative;overflow:hidden;min-height:110px;transition:transform .2s,box-shadow .2s}
+.card-box:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.15)}
+.card-box .icon{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:32px;opacity:0.3}
+.bg-purple{background:linear-gradient(135deg,#667eea,#764ba2)}
+.bg-red{background:linear-gradient(135deg,#ff4d4f,#e84393)}
+.bg-blue{background:linear-gradient(135deg,#39a9db,#667eea)}
+.bg-green{background:linear-gradient(135deg,#00b894,#00cec9)}
+.bg-orange{background:linear-gradient(135deg,#fdcb6e,#e17055)}
+.bg-teal{background:linear-gradient(135deg,#00cec9,#55efc4)}
+.table-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.status-badge{padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600;color:#fff}
+.status-Pending{background:#fdcb6e;color:#856404}
+.status-Processing{background:#74b9ff;color:#0c5460}
+.status-Shipped{background:#a29bfe;color:#fff}
+.status-Delivered{background:#00b894}
+.status-Cancelled{background:#ff7675}
+.btn-view{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:8px;padding:5px 14px;font-size:12px;font-weight:600;text-decoration:none;transition:all .2s}
+.btn-view:hover{box-shadow:0 4px 12px rgba(102,126,234,.4);color:#fff;transform:translateY(-1px)}
+
+/* =========================
+   ADMIN ORDERS
+========================= */
+.filter-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.filter-tab{padding:8px 18px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;border:2px solid #eee;color:#636e72;transition:all .2s}
+.filter-tab:hover{border-color:#667eea;color:#667eea}
+.filter-tab.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-color:transparent}
+.filter-tab .badge{background:rgba(255,255,255,.25);border-radius:6px;padding:2px 7px;font-size:11px;margin-left:4px}
+.filter-tab:not(.active) .badge{background:#f1f2f6;color:#636e72}
+.orders-table{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.orders-table table{margin-bottom:0}
+.orders-table thead th{background:#f8f9fa;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#b2bec3;padding:14px 16px;border:none}
+.orders-table tbody td{padding:14px 16px;vertical-align:middle;font-size:14px}
+.orders-table tbody tr{transition:background .15s}
+.orders-table tbody tr:hover{background:#f8f9fe}
+.order-id-badge{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:4px 12px;border-radius:8px;font-weight:700;font-size:13px}
+.status-pill{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;color:#fff}
+.btn-detail{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;text-decoration:none;transition:all .2s}
+.btn-detail:hover{box-shadow:0 4px 14px rgba(102,126,234,.4);color:#fff;transform:translateY(-1px)}
+.amount-text{font-weight:700;color:#00b894}
+.empty-state{text-align:center;padding:60px 20px;color:#b2bec3}
+.empty-state i{font-size:48px;display:block;margin-bottom:12px;color:#dfe6e9}
+
+/* =========================
+   ADMIN ORDER DETAIL
+========================= */
+.detail-section{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.detail-section h6{font-weight:700;font-size:16px;color:#2d3436;margin-bottom:16px}
+.detail-section h6 i{color:#667eea;margin-right:8px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.info-item-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#b2bec3;margin-bottom:2px}
+.info-item-value{font-size:15px;font-weight:600;color:#2d3436}
+.status-pill-lg{padding:6px 18px;border-radius:20px;font-size:13px;font-weight:700;color:#fff;display:inline-block}
+.items-table{width:100%;border-collapse:separate;border-spacing:0 6px}
+.items-table thead th{background:#f8f9fa;padding:10px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#b2bec3;border:none}
+.items-table thead th:first-child{border-radius:8px 0 0 8px}
+.items-table thead th:last-child{border-radius:0 8px 8px 0}
+.items-table tbody td{padding:12px 14px;vertical-align:middle;background:#fff;border-top:1px solid #f1f2f6;border-bottom:1px solid #f1f2f6}
+.items-table tbody td:first-child{border-left:1px solid #f1f2f6;border-radius:8px 0 0 8px}
+.items-table tbody td:last-child{border-right:1px solid #f1f2f6;border-radius:0 8px 8px 0}
+.items-table tbody tr{box-shadow:0 1px 6px rgba(0,0,0,0.03)}
+.item-img{width:48px;height:48px;border-radius:8px;object-fit:cover;border:2px solid #f1f2f6}
+.item-placeholder{width:48px;height:48px;border-radius:8px;background:#f1f2f6;display:inline-flex;align-items:center;justify-content:center;font-size:16px;color:#b2bec3}
+.item-subtotal{font-weight:700;color:#00b894}
+.status-form{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.status-form select{border-radius:10px;padding:8px 16px;border:2px solid #f1f2f6;font-weight:600;font-size:14px;min-width:180px}
+.status-form select:focus{border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,.12);outline:none}
+.btn-update{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:10px;padding:8px 22px;font-weight:700;font-size:14px;transition:all .2s;cursor:pointer}
+.btn-update:hover{box-shadow:0 6px 18px rgba(102,126,234,.35);transform:translateY(-2px)}
+.btn-delete{background:#ff7675;color:#fff;border:none;border-radius:10px;padding:8px 22px;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s}
+.btn-delete:hover{background:#d63031;box-shadow:0 6px 18px rgba(214,48,49,.3)}
+.total-bar{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#667eea08,#764ba210);border-radius:10px;padding:14px 18px;margin-top:12px}
+.total-bar span{font-weight:700;color:#2d3436}
+.total-bar strong{font-weight:800;font-size:20px;color:#00b894}
+.order-id-lg{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:6px 18px;border-radius:10px;font-weight:800;font-size:16px}
+
+/* =========================
+   ADMIN QUERIES
+========================= */
+.queries-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.queries-header h2{margin:0;font-weight:700}
+.query-stats{display:flex;gap:12px}
+.query-stat{padding:6px 16px;border-radius:8px;font-size:13px;font-weight:700}
+.stat-total{background:#e8e0ff;color:#6f42c1}
+.stat-unread{background:#fff3cd;color:#856404}
+.stat-read{background:#d4edda;color:#155724}
+.query-card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);margin-bottom:16px;border-left:4px solid #6f42c1;transition:all 0.25s;overflow:hidden}
+.query-card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.1);transform:translateY(-2px)}
+.query-card.read{border-left-color:#28a745;opacity:0.75}
+.query-card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#fafbfc;border-bottom:1px solid #f1f2f6;flex-wrap:wrap;gap:10px}
+.query-sender{display:flex;align-items:center;gap:12px}
+.sender-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0}
+.sender-name{font-weight:700;font-size:15px;color:#2d3436}
+.sender-email{font-size:12px;color:#636e72}
+.query-meta{display:flex;align-items:center;gap:12px}
+.query-date{font-size:12px;color:#b2bec3;font-weight:600}
+.query-badge{padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700}
+.badge-unread{background:#fff3cd;color:#856404}
+.badge-read{background:#d4edda;color:#155724}
+.query-card-body{padding:18px 20px}
+.query-subject{font-weight:700;font-size:15px;color:#2d3436;margin-bottom:8px}
+.query-message{font-size:14px;color:#636e72;line-height:1.6;white-space:pre-wrap}
+.query-card-footer{display:flex;align-items:center;gap:10px;padding:12px 20px;background:#fafbfc;border-top:1px solid #f1f2f6}
+.btn-mark{background:#e8e0ff;color:#6f42c1;border:none;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:0.2s}
+.btn-mark:hover{background:#6f42c1;color:#fff}
+.btn-delete-query{background:#ffe0e0;color:#e03131;border:none;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:0.2s}
+.btn-delete-query:hover{background:#e03131;color:#fff}
+.btn-reply{background:#d4edda;color:#155724;border:none;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:0.2s}
+.btn-reply:hover{background:#28a745;color:#fff}
+.empty-queries{text-align:center;padding:60px 20px;color:#b2bec3}
+.empty-queries i{font-size:56px;display:block;margin-bottom:14px;color:#dfe6e9}
+
+/* =========================
+   ADMIN CREATE PRODUCT
+========================= */
+.border-dashed{border-style:dashed !important}
+.custom-file-upload:hover{background-color:#f1f3f5 !important;border-color:#dee2e6 !important}

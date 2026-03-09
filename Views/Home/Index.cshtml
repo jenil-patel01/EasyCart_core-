@@ -1,193 +1,7 @@
 ﻿@model List<eays.Models.Product>
-<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-<link rel="stylesheet" href="~/eays.styles.css" asp-append-version="true" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-
-<style>
-    /* ===== FEATURED PRODUCTS OVERRIDE ===== */
-    .featured-section {
-        padding: 40px 0 60px;
-    }
-
-    .featured-section h2 {
-        font-weight: 800;
-        font-size: 28px;
-        color: #2d3436;
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    .fp-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 22px;
-        margin-bottom: 30px;
-    }
-
-    .fp-card {
-        background: #fff;
-        border-radius: 16px;
-        overflow: hidden;
-        border: 1px solid #f1f2f6;
-        transition: all .25s cubic-bezier(.4,0,.2,1);
-        display: flex;
-        flex-direction: column;
-        position: relative;
-    }
-
-    .fp-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 14px 35px rgba(0,0,0,.08);
-    }
-
-    .fp-card:hover::after {
-        content: '';
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 3px;
-        background: linear-gradient(90deg, #667eea, #764ba2);
-    }
-
-    .fp-img {
-        height: 190px;
-        background: #f8fafc;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        position: relative;
-    }
-
-    .fp-img img {
-        max-height: 160px;
-        max-width: 90%;
-        object-fit: contain;
-        transition: transform .35s;
-    }
-
-    .fp-card:hover .fp-img img { transform: scale(1.08); }
-
-    .fp-cat {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background: rgba(102,126,234,.9);
-        color: #fff;
-        padding: 3px 10px;
-        border-radius: 6px;
-        font-size: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: .3px;
-    }
-
-    .fp-wishlist {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background: #fff;
-        box-shadow: 0 2px 8px rgba(0,0,0,.08);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        color: #e84393;
-        font-size: 13px;
-        transition: all .2s;
-    }
-
-    .fp-wishlist:hover {
-        background: #fee2e2;
-        transform: scale(1.1);
-    }
-
-    .fp-stock {
-        position: absolute;
-        bottom: 8px;
-        right: 8px;
-        font-size: 9px;
-        font-weight: 700;
-        padding: 2px 8px;
-        border-radius: 5px;
-    }
-
-    .fp-stock.in { background: #d4edda; color: #155724; }
-    .fp-stock.out { background: #f8d7da; color: #721c24; }
-
-    .fp-placeholder {
-        font-size: 50px;
-        color: #dfe6e9;
-    }
-
-    .fp-body {
-        padding: 16px;
-        text-align: center;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .fp-name {
-        font-weight: 600;
-        font-size: 14px;
-        color: #2d3436;
-        margin-bottom: 4px;
-    }
-
-    .fp-price {
-        font-weight: 700;
-        color: #667eea;
-        font-size: 18px;
-        margin-bottom: 12px;
-    }
-
-    .fp-actions {
-        margin-top: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
-
-    .fp-view {
-        display: block;
-        padding: 8px;
-        border: 2px solid #f1f2f6;
-        border-radius: 10px;
-        text-decoration: none;
-        color: #636e72;
-        font-weight: 600;
-        font-size: 13px;
-        text-align: center;
-        transition: all .2s;
-    }
-
-    .fp-view:hover { border-color: #667eea; color: #667eea; }
-
-    .fp-cart {
-        display: block;
-        padding: 9px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: #fff;
-        border-radius: 10px;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 13px;
-        text-align: center;
-        transition: all .2s;
-    }
-
-    .fp-cart:hover {
-        color: #fff;
-        box-shadow: 0 6px 16px rgba(102,126,234,.3);
-        transform: translateY(-1px);
-    }
-
-    .view-all-btn { text-align: center; }
-</style>
+@{
+    var wishlistIds = ViewBag.WishlistProductIds as List<int> ?? new List<int>();
+}
 
 <div class="user-page">
 
@@ -207,7 +21,7 @@
         <div class="feature-item">
             <span class="feature-icon">🚚</span>
             <h3>Free Shipping</h3>
-            <p>On orders over $50</p>
+            <p>On orders over &#8377;50</p>
         </div>
 
         <div class="feature-item">
@@ -246,8 +60,8 @@
                             }
 
                             <a asp-controller="Wishlist" asp-action="Add" asp-route-productId="@p.Id"
-                               class="fp-wishlist">
-                                <i class="fa fa-heart"></i>
+                               class="fp-wishlist @(wishlistIds.Contains(p.Id) ? "active" : "")">
+                                <i class="@(wishlistIds.Contains(p.Id) ? "fa-solid" : "fa-regular") fa-heart"></i>
                             </a>
 
                             @if (p.Stock > 0)
@@ -270,7 +84,7 @@
                         </div>
                         <div class="fp-body">
                             <div class="fp-name">@p.Name</div>
-                            <div class="fp-price">$@p.Price.ToString("N2")</div>
+                            <div class="fp-price">&#8377;@p.Price.ToString("N2")</div>
                             <div class="fp-actions">
                                 <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Id"
                                    class="fp-view">

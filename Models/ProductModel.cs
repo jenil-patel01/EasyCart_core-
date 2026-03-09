@@ -10,6 +10,9 @@ namespace eays.Models
         [Required]
         public string Name { get; set; }
 
+        [Required]
+        public string Description { get; set; } = "";
+
         public decimal Price { get; set; }
 
         public int Stock { get; set; }

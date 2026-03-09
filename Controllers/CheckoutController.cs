@@ -20,6 +20,14 @@ namespace eays.Controllers
             _userManager = userManager;
         }
 
+        public IActionResult Success(int? orderId)
+        {
+            if (orderId == null || orderId == 0)
+                return RedirectToAction("Index", "Home");
+
+            return View(orderId.Value);
+        }
+       
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -93,6 +101,8 @@ namespace eays.Controllers
                 Address = model.Address,
                 OrderDate = DateTime.Now,
                 TotalAmount = cartItems.Sum(x => x.Product.Price * x.Quantity),
+                Status = "Pending",
+                PaymentStatus = "Pending",
                 OrderItems = cartItems.Select(c => new OrderItem
                 {
                     ProductId = c.ProductId,
@@ -106,22 +116,8 @@ namespace eays.Controllers
 
             await _context.SaveChangesAsync();
 
-            TempData["OrderId"] = order.Id;
-            return RedirectToAction(nameof(Success));
-        }
-
-        public async Task<IActionResult> Success()
-        {
-            var orderId = TempData["OrderId"] as int?;
-            if (orderId == null)
-                return RedirectToAction("Index", "Home");
-
-            var order = await _context.Orders
-                .Include(o => o.OrderItems)
-                    .ThenInclude(oi => oi.Product)
-                .FirstOrDefaultAsync(o => o.Id == orderId);
-
-            return View(order);
+            // Redirect to Razorpay payment page
+            return RedirectToAction("Pay", "Payment", new { orderId = order.Id });
         }
 
         // My Orders page

@@ -1,0 +1,47 @@
+@model eays.Models.Order
+@{
+    ViewData["Title"] = "Payment Failed";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+<div class="failed-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="failed-card">
+                    <div class="failed-icon">
+                        <i class="fa fa-times"></i>
+                    </div>
+
+                    <h2 class="failed-title">Payment Failed</h2>
+                    <p class="failed-msg">
+                        @(TempData["PaymentError"]?.ToString() ?? "Something went wrong with your payment. Don't worry — no money has been deducted.")
+                    </p>
+
+                    @if (Model != null)
+                    {
+                        <div class="order-ref">
+                            Order <strong>#@Model.Id</strong> — &#8377;@Model.TotalAmount.ToString("N2")
+                        </div>
+
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <a href="/Payment/Pay?orderId=@Model.Id" class="btn-retry">
+                                <i class="fa fa-redo me-1"></i> Retry Payment
+                            </a>
+                            <a href="/" class="btn-home">
+                                <i class="fa fa-home me-1"></i> Go Home
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <a href="/" class="btn-home">
+                            <i class="fa fa-home me-1"></i> Go Home
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

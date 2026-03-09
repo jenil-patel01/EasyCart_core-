@@ -53,6 +53,10 @@ namespace eays.Controllers
                 _context.SaveChanges();
             }
 
+            var referrer = Request.Headers["Referer"].ToString();
+            if (!string.IsNullOrEmpty(referrer))
+                return Redirect(referrer);
+
             return RedirectToAction("Index");
         }
 

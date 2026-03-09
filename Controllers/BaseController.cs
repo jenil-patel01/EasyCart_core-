@@ -2,7 +2,6 @@
 using eays.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace eays.Controllers
 {
@@ -21,7 +20,7 @@ namespace eays.Controllers
         public override void OnActionExecuting(
             Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 var userId = _userManager.GetUserId(User);
 
@@ -30,6 +29,11 @@ namespace eays.Controllers
 
                 ViewBag.WishlistCount = _context.WishlistItems
                     .Count(x => x.UserId == userId);
+            }
+            else
+            {
+                ViewBag.CartCount = 0;
+                ViewBag.WishlistCount = 0;
             }
 
             base.OnActionExecuting(context);

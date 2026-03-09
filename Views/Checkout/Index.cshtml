@@ -3,267 +3,6 @@
     ViewData["Title"] = "Checkout";
 }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-
-<style>
-    .checkout-page {
-        background: linear-gradient(160deg, #f8f9fe 0%, #eef1f8 100%);
-        min-height: 100vh;
-        padding: 40px 0 60px;
-    }
-
-    .checkout-title {
-        font-size: 28px;
-        font-weight: 800;
-        color: #2d3436;
-    }
-
-    .checkout-title i { color: #667eea; }
-
-    .checkout-steps {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 30px;
-    }
-
-    .step {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 13px;
-        font-weight: 600;
-        color: #b2bec3;
-    }
-
-    .step.active { color: #667eea; }
-    .step.done { color: #00b894; }
-
-    .step-num {
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 12px;
-        border: 2px solid #dfe6e9;
-        color: #b2bec3;
-    }
-
-    .step.active .step-num {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: #fff;
-        border-color: transparent;
-    }
-
-    .step.done .step-num {
-        background: #00b894;
-        color: #fff;
-        border-color: transparent;
-    }
-
-    .step-line {
-        width: 40px;
-        height: 2px;
-        background: #dfe6e9;
-        border-radius: 2px;
-    }
-
-    /* Cards */
-    .ck-card {
-        background: #fff;
-        border-radius: 16px;
-        padding: 28px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-        border: 1px solid rgba(0,0,0,0.03);
-    }
-
-    .ck-card h5 {
-        font-weight: 700;
-        font-size: 17px;
-        color: #2d3436;
-        margin-bottom: 20px;
-    }
-
-    .ck-card h5 i { color: #667eea; margin-right: 8px; }
-
-    /* Cart Items */
-    .cart-item-row {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 14px 0;
-        border-bottom: 1px solid #f1f2f6;
-    }
-
-    .cart-item-row:last-child { border-bottom: none; }
-
-    .cart-item-img {
-        width: 64px;
-        height: 64px;
-        border-radius: 12px;
-        object-fit: cover;
-        border: 2px solid #f1f2f6;
-        flex-shrink: 0;
-    }
-
-    .cart-item-img-placeholder {
-        width: 64px;
-        height: 64px;
-        border-radius: 12px;
-        background: linear-gradient(135deg, #f1f2f6, #dfe6e9);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        color: #b2bec3;
-        flex-shrink: 0;
-    }
-
-    .cart-item-name {
-        font-weight: 600;
-        font-size: 15px;
-        color: #2d3436;
-    }
-
-    .cart-item-qty {
-        font-size: 12px;
-        color: #b2bec3;
-        font-weight: 600;
-    }
-
-    .cart-item-price {
-        font-weight: 700;
-        font-size: 15px;
-        color: #2d3436;
-        margin-left: auto;
-        white-space: nowrap;
-    }
-
-    /* Summary */
-    .summary-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 0;
-        font-size: 14px;
-        color: #636e72;
-    }
-
-    .summary-row.total {
-        border-top: 2px solid #f1f2f6;
-        padding-top: 16px;
-        margin-top: 6px;
-        font-size: 18px;
-        font-weight: 800;
-        color: #2d3436;
-    }
-
-    .summary-row.total .summary-val {
-        color: #00b894;
-        font-size: 20px;
-    }
-
-    /* Form */
-    .ck-form .form-label {
-        font-weight: 600;
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: .4px;
-        color: #636e72;
-        margin-bottom: 6px;
-    }
-
-    .ck-form .form-control {
-        border-radius: 10px;
-        padding: 12px 16px;
-        border: 2px solid #f1f2f6;
-        font-size: 14px;
-        transition: all .2s;
-    }
-
-    .ck-form .form-control:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102,126,234,.12);
-    }
-
-    .ck-form .input-icon-wrap {
-        position: relative;
-    }
-
-    .ck-form .input-icon-wrap i {
-        position: absolute;
-        left: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #b2bec3;
-        font-size: 14px;
-    }
-
-    .ck-form .input-icon-wrap .form-control {
-        padding-left: 40px;
-    }
-
-    /* Buttons */
-    .btn-place-order {
-        background: linear-gradient(135deg, #00b894, #00cec9);
-        color: #fff;
-        border: none;
-        padding: 14px 36px;
-        border-radius: 12px;
-        font-weight: 700;
-        font-size: 16px;
-        width: 100%;
-        transition: all .3s;
-        letter-spacing: .3px;
-    }
-
-    .btn-place-order:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 28px rgba(0,184,148,.35);
-        color: #fff;
-    }
-
-    .btn-place-order:disabled {
-        opacity: .6;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-    }
-
-    .btn-back {
-        color: #667eea;
-        font-weight: 600;
-        font-size: 14px;
-        text-decoration: none;
-        transition: all .2s;
-    }
-
-    .btn-back:hover {
-        color: #764ba2;
-    }
-
-    /* Security Badge */
-    .security-badge {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: #f0fff4;
-        border: 1px solid #c6f6d5;
-        border-radius: 10px;
-        padding: 10px 14px;
-        font-size: 12px;
-        font-weight: 600;
-        color: #00b894;
-        margin-top: 14px;
-    }
-
-    .security-badge i { font-size: 16px; }
-
-    /* Validation */
-    .text-danger { font-size: 12px; }
-</style>
-
 <div class="checkout-page">
     <div class="container">
         <div class="row justify-content-center">
@@ -337,10 +76,7 @@
                                     </div>
                                 </div>
 
-                                <div class="security-badge mt-4">
-                                    <i class="fa fa-shield-halved"></i>
-                                    Your personal data is protected with 256-bit SSL encryption
-                                </div>
+                                
                             </div>
                         </div>
 
@@ -365,10 +101,10 @@
                                         }
                                         <div>
                                             <div class="cart-item-name">@item.Product?.Name</div>
-                                            <div class="cart-item-qty">Qty: @item.Quantity × $@item.Product?.Price.ToString("N2")</div>
+                                            <div class="cart-item-qty">Qty: @item.Quantity &#215; &#8377;@item.Product?.Price.ToString("N2")</div>
                                         </div>
                                         <div class="cart-item-price">
-                                            $@((item.Product?.Price ?? 0 * item.Quantity).ToString("N2"))
+                                            &#8377;@((item.Product?.Price ?? 0 * item.Quantity).ToString("N2"))
                                         </div>
                                     </div>
                                 }
@@ -376,7 +112,7 @@
                                 <div class="mt-3">
                                     <div class="summary-row">
                                         <span>Subtotal (@Model.CartItems.Count items)</span>
-                                        <span>$@Model.Total.ToString("N2")</span>
+                                        <span>&#8377;@Model.Total.ToString("N2")</span>
                                     </div>
                                     <div class="summary-row">
                                         <span>Shipping</span>
@@ -384,16 +120,17 @@
                                     </div>
                                     <div class="summary-row">
                                         <span>Tax</span>
-                                        <span>$0.00</span>
+                                        <span>&#8377;0.00</span>
                                     </div>
                                     <div class="summary-row total">
                                         <span>Total</span>
-                                        <span class="summary-val">$@Model.Total.ToString("N2")</span>
+                                        <span class="summary-val">&#8377;@Model.Total.ToString("N2")</span>
                                     </div>
+                                   
                                 </div>
 
                                 <button type="submit" class="btn-place-order mt-3" id="placeOrderBtn">
-                                    <i class="fa fa-lock me-2"></i> Place Order — $@Model.Total.ToString("N2")
+                                    <i class="fa fa-lock me-2"></i> Place Order &#8212; &#8377;@Model.Total.ToString("N2")
                                 </button>
 
                                 <div class="text-center mt-3">

@@ -48,7 +48,7 @@
                             <span style="color:#aaa;font-size:12px;">Uncategorized</span>
                         }
                     </td>
-                    <td>@p.Price</td>
+                    <td>&#8377;@p.Price.ToString("N2")</td>
                     <td>@p.Stock</td>
                     <td class="text-end">
                         <a asp-action="EditProduct" asp-route-id="@p.Id" class="btn-edit">Edit</a>

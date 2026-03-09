@@ -6,133 +6,8 @@
     <title>@ViewData["Title"] - EasyCart</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/eays.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/user.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-
-    <style>
-        /* ===== PROFILE AVATAR IN NAVBAR ===== */
-        .nav-profile-avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: #fff;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 16px;
-            border: 2px solid #e0d4f7;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-
-        .nav-profile-avatar:hover {
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.25);
-            transform: scale(1.08);
-        }
-
-        .nav-profile-dropdown .dropdown-toggle::after {
-            display: none;
-        }
-
-        .nav-profile-dropdown .dropdown-menu {
-            border: none;
-            border-radius: 14px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-            padding: 10px 0;
-            min-width: 220px;
-            margin-top: 10px !important;
-            animation: dropFade 0.2s ease;
-        }
-
-        @@keyframes dropFade {
-            from { opacity: 0; transform: translateY(-8px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .nav-profile-dropdown .dropdown-header {
-            padding: 12px 18px;
-            border-bottom: 1px solid #f1f2f6;
-        }
-
-        .nav-profile-dropdown .dropdown-header .profile-name {
-            font-weight: 700;
-            font-size: 15px;
-            color: #2d3436;
-        }
-
-        .nav-profile-dropdown .dropdown-header .profile-email {
-            font-size: 12px;
-            color: #b2bec3;
-        }
-
-        .nav-profile-dropdown .dropdown-item {
-            padding: 10px 18px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #636e72;
-            transition: all 0.15s;
-        }
-
-        .nav-profile-dropdown .dropdown-item i {
-            width: 22px;
-            text-align: center;
-            margin-right: 8px;
-            font-size: 14px;
-        }
-
-        .nav-profile-dropdown .dropdown-item:hover {
-            background: linear-gradient(135deg, #667eea10, #764ba210);
-            color: #667eea;
-        }
-
-        .nav-profile-dropdown .dropdown-item.text-danger:hover {
-            background: #fff5f5;
-            color: #e84393;
-        }
-
-        .nav-profile-dropdown .dropdown-divider {
-            margin: 4px 0;
-            border-color: #f1f2f6;
-        }
-
-        /* ===== AUTH BUTTONS (not logged in) ===== */
-        .btn-nav-login {
-            border: 2px solid #667eea;
-            color: #667eea;
-            border-radius: 10px;
-            padding: 6px 18px;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
-            text-decoration: none;
-        }
-
-        .btn-nav-login:hover {
-            background: #667eea;
-            color: #fff;
-        }
-
-        .btn-nav-register {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            padding: 7px 18px;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
-            text-decoration: none;
-        }
-
-        .btn-nav-register:hover {
-            box-shadow: 0 6px 18px rgba(102, 126, 234, 0.35);
-            color: #fff;
-            transform: translateY(-1px);
-        }
-    </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -155,6 +30,7 @@
                         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Home/About">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Home/Products">Products</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Home/Contact">Contact</a></li>
                     </ul>
 
                     <!-- Right -->
@@ -267,4 +143,58 @@
 
     @RenderSection("Scripts", required: false)
 </body>
+<footer class="site-footer">
+    <div class="container">
+        <div class="row">
+
+            <!-- Brand -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <h4 class="footer-logo">EasyCart</h4>
+                <p class="footer-text">
+                    Your trusted online shopping destination for quality products,
+                    fast delivery, and secure payments.
+                </p>
+            </div>
+
+            <!-- Links -->
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h5 class="footer-title">Shop</h5>
+                <ul class="footer-links">
+                    <li><a asp-controller="Products" asp-action="Index">Products</a></li>
+                    <li><a asp-controller="Cart" asp-action="Index">Cart</a></li>
+                    <li><a asp-controller="Wishlist" asp-action="Index">Wishlist</a></li>
+                    <li><a asp-controller="Orders" asp-action="Index">My Orders</a></li>
+                </ul>
+            </div>
+
+            <!-- Company -->
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h5 class="footer-title">Company</h5>
+                <ul class="footer-links">
+                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-controller="Account" asp-action="Login">Login</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <h5 class="footer-title">Contact</h5>
+                <p class="footer-text">
+                    Rajkot, Gujarat, India <br>
+                    support@easycart.com <br>
+                    +91 98765 43210
+                </p>
+            </div>
+
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-bottom">
+            <p>© 2026 EasyCart. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
 </html>

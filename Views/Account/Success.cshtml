@@ -1,4 +1,12 @@
-﻿<h2>Order Placed Successfully 🎉</h2>
-<a asp-controller="Home" asp-action="Index" class="btn btn-primary">
-    Continue Shopping
+﻿@model int
+
+<h2 class="text-success">Order Placed Successfully 🎉</h2>
+
+<p>Order ID: #@Model</p>
+
+<a asp-controller="Order"
+   asp-action="DownloadInvoice"
+   asp-route-orderId="@Model"
+   class="btn btn-success">
+    Download Invoice
 </a>

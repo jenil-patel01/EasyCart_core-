@@ -23,6 +23,12 @@ namespace eays.Models
 
         public string Status { get; set; } = "Pending";
 
+        // Razorpay Payment Fields
+        public string? RazorpayOrderId { get; set; }
+        public string? RazorpayPaymentId { get; set; }
+        public string? PaymentStatus { get; set; }
+        public DateTime? PaymentDate { get; set; }
+
         public List<OrderItem> OrderItems { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using eays.Data;
 using eays.Models;
+using eays.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +13,15 @@ namespace eays.Controllers
     {
         private readonly AppDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IInvoiceService _invoiceService;
 
         public CheckoutController(AppDbContext context,
-                                  UserManager<ApplicationUser> userManager)
+                                  UserManager<ApplicationUser> userManager,
+                                  IInvoiceService invoiceService)
         {
             _context = context;
             _userManager = userManager;
+            _invoiceService = invoiceService;
         }
 
         public IActionResult Success(int? orderId)
@@ -26,6 +30,25 @@ namespace eays.Controllers
                 return RedirectToAction("Index", "Home");
 
             return View(orderId.Value);
+        }
+
+        public async Task<IActionResult> DownloadInvoice(int orderId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == user.Id);
+
+            if (order == null)
+                return NotFound();
+
+            var pdfBytes = await _invoiceService.GenerateInvoicePdfAsync(order);
+            
+            return File(pdfBytes, "application/pdf", $"Invoice_{order.Id}_{DateTime.Now:yyyyMMdd}.pdf");
         }
        
         public async Task<IActionResult> Index()
@@ -48,7 +71,9 @@ namespace eays.Controllers
                 CartItems = cartItems,
                 FullName = user.FullName,
                 Email = user.Email ?? "",
-                Address = user.Address
+                Phone = user.PhoneNumber ?? "",
+                Address = user.Address,
+                PaymentMethod = "RAZORPAY" // Default Check
             };
 
             return View(vm);
@@ -98,11 +123,12 @@ namespace eays.Controllers
                 UserId = userId,
                 FullName = model.FullName,
                 Email = model.Email,
+                PhoneNumber = model.Phone,
                 Address = model.Address,
                 OrderDate = DateTime.Now,
                 TotalAmount = cartItems.Sum(x => x.Product.Price * x.Quantity),
                 Status = "Pending",
-                PaymentStatus = "Pending",
+                PaymentStatus = model.PaymentMethod == "COD" ? "Pending" : "Pending",
                 OrderItems = cartItems.Select(c => new OrderItem
                 {
                     ProductId = c.ProductId,
@@ -115,6 +141,11 @@ namespace eays.Controllers
             _context.CartItems.RemoveRange(cartItems);
 
             await _context.SaveChangesAsync();
+
+            if (model.PaymentMethod == "COD")
+            {
+                return RedirectToAction("Success", "Checkout", new { orderId = order.Id });
+            }
 
             // Redirect to Razorpay payment page
             return RedirectToAction("Pay", "Payment", new { orderId = order.Id });

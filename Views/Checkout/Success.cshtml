@@ -1,21 +1,25 @@
 @{
     ViewData["Title"] = "Order Success";
+    int orderId = (int)ViewData.Model;
 }
 
 <div class="container py-5 text-center">
     <div class="card shadow p-5">
-        <h2 class="text-success mb-3">? Order Placed Successfully</h2>
+        <h2 class="text-success mb-3"> Order Placed Successfully</h2>
 
         <p class="mb-2">
             Thank you for your purchase!
         </p>
 
-        <p class="fw-bold">
-            Order ID: #@ViewBag.OrderId
+        <p class="text-muted">
+            Your order ID: <strong>#@orderId</strong>
         </p>
 
-        <a href="/Products" class="btn btn-primary mt-3">
-            Continue Shopping
-        </a>
+        <div class="mt-4">
+           
+            <a href="/Home/Products" class="btn btn-primary">
+                Continue Shopping
+            </a>
+        </div>
     </div>
 </div>

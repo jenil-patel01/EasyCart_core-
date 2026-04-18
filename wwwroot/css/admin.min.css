@@ -2,25 +2,25 @@
    ADMIN LAYOUT
 ========================= */
 body{margin:0;font-family:Segoe UI,Arial;background:#f4f5f7}
-.layout{display:flex;height:100vh}
+.layout{display:flex;height:100vh;overflow:hidden}
 
 /* SIDEBAR */
-.sidebar{width:240px;background:linear-gradient(180deg,#7b1fa2,#512da8);color:white;padding:20px 0}
+.sidebar{width:240px;background:linear-gradient(180deg,#7b1fa2,#512da8);color:white;padding:20px 0;flex-shrink:0}
 .logo{font-size:22px;font-weight:600;padding:0 25px 20px}
 .sidebar nav a{display:flex;gap:10px;padding:12px 25px;color:white;text-decoration:none;font-size:15px}
 .sidebar nav a:hover{background:rgba(255,255,255,.15)}
 
 /* MAIN */
-.main{flex:1;display:flex;flex-direction:column}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
 
 /* TOPBAR */
-.topbar{height:60px;background:white;display:flex;align-items:center;justify-content:space-between;padding:0 25px;border-bottom:1px solid #eee}
+.topbar{height:60px;background:white;display:flex;align-items:center;justify-content:space-between;padding:0 25px;border-bottom:1px solid #eee;flex-shrink:0}
 .topbar input{border:1px solid #ddd;border-radius:20px;padding:8px 15px}
 .user{display:flex;align-items:center;gap:10px}
 .user img{border-radius:50%}
 
 /* CONTENT */
-.content{padding:25px}
+.content{padding:25px;flex:1;overflow-y:auto}
 
 /* CARDS */
 .cards{display:flex;gap:20px}
@@ -84,11 +84,12 @@ th,td{padding:10px;text-align:left;border-bottom:1px solid #eee;font-size:14px}
 .bg-teal{background:linear-gradient(135deg,#00cec9,#55efc4)}
 .table-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
 .status-badge{padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600;color:#fff}
-.status-Pending{background:#fdcb6e;color:#856404}
+.status-Placed{background:#17a2b8;color:#fff}
+.status-Pending{background:#ff9800;color:#fff}
 .status-Processing{background:#74b9ff;color:#0c5460}
 .status-Shipped{background:#a29bfe;color:#fff}
-.status-Delivered{background:#00b894}
-.status-Cancelled{background:#ff7675}
+.status-Delivered{background:#00b894;color:#fff}
+.status-Cancelled{background:#ff7675;color:#fff}
 .btn-view{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:8px;padding:5px 14px;font-size:12px;font-weight:600;text-decoration:none;transition:all .2s}
 .btn-view:hover{box-shadow:0 4px 12px rgba(102,126,234,.4);color:#fff;transform:translateY(-1px)}
 
@@ -109,6 +110,12 @@ th,td{padding:10px;text-align:left;border-bottom:1px solid #eee;font-size:14px}
 .orders-table tbody tr:hover{background:#f8f9fe}
 .order-id-badge{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:4px 12px;border-radius:8px;font-weight:700;font-size:13px}
 .status-pill{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;color:#fff}
+.status-pill.status-Placed{background:#17a2b8;color:#fff}
+.status-pill.status-Pending{background:#ff9800;color:#fff}
+.status-pill.status-Processing{background:#2196f3;color:#fff}
+.status-pill.status-Shipped{background:#9c27b0;color:#fff}
+.status-pill.status-Delivered{background:#4caf50;color:#fff}
+.status-pill.status-Cancelled{background:#f44336;color:#fff}
 .btn-detail{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;text-decoration:none;transition:all .2s}
 .btn-detail:hover{box-shadow:0 4px 14px rgba(102,126,234,.4);color:#fff;transform:translateY(-1px)}
 .amount-text{font-weight:700;color:#00b894}

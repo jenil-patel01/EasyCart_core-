@@ -3,7 +3,29 @@
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
-<h2>Categories</h2>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+<h2 class="fw-bold mb-0" style="color: #2d3436; margin: 0;">Categories</h2>
+    
+<!-- Search Form -->
+<form method="get" asp-action="Categories" style="margin: 0; display: flex; align-items: center; gap: 15px;">
+    <div style="position: relative;">
+        <i class="fa fa-search" style="position: absolute; top: 50%; left: 16px; transform: translateY(-50%); color: #9ca3af; font-size: 15px;"></i>
+        <input type="text" name="search" value="@ViewBag.CurrentSearch" placeholder="Search categories..." 
+               style="width: 320px; padding: 10px 35px 10px 42px; border-radius: 50px; border: 1px solid #e5e7eb; background-color: #f9fafb; font-size: 14px; color: #4b5563; outline: none; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.03);"
+               onfocus="this.style.backgroundColor='#ffffff'; this.style.borderColor='#d1d5db'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.05)';"
+               onblur="this.style.backgroundColor='#f9fafb'; this.style.borderColor='#e5e7eb'; this.style.boxShadow='0 1px 2px rgba(0,0,0,0.03)';">
+        @if (!string.IsNullOrEmpty(ViewBag.CurrentSearch as string))
+        {
+            <a href="/Admin/Categories" style="position-absolute; top: 50%; right: 14px; transform: translateY(-50%); color: #ef4444; text-decoration: none; font-size: 16px;">
+                <i class="fa fa-times-circle"></i>
+            </a>
+        }
+    </div>
+    <span style="font-size: 15px; color: #9ca3af; font-weight: 500;">
+        @Model.Count category(s)
+    </span>
+</form>
+</div>
 
 <div class="card-table">
 

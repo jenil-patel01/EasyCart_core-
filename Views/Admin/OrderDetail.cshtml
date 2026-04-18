@@ -60,11 +60,11 @@
             <form asp-action="UpdateOrderStatus" method="post" class="status-form">
                 <input type="hidden" name="id" value="@Model.Id" />
                 <select name="status" class="form-select">
-                    <option value="Pending" selected="@(Model.Status == "Pending")">?? Pending</option>
-                    <option value="Processing" selected="@(Model.Status == "Processing")">?? Processing</option>
-                    <option value="Shipped" selected="@(Model.Status == "Shipped")">?? Shipped</option>
-                    <option value="Delivered" selected="@(Model.Status == "Delivered")">? Delivered</option>
-                    <option value="Cancelled" selected="@(Model.Status == "Cancelled")">? Cancelled</option>
+                    <option value="Pending" selected="@(Model.Status == "Pending")"> Pending</option>
+                    <option value="Processing" selected="@(Model.Status == "Processing")"> Processing</option>
+                    <option value="Shipped" selected="@(Model.Status == "Shipped")"> Shipped</option>
+                    <option value="Delivered" selected="@(Model.Status == "Delivered")"> Delivered</option>
+                    <option value="Cancelled" selected="@(Model.Status == "Cancelled")"> Cancelled</option>
                 </select>
                 <button type="submit" class="btn-update">
                     <i class="fa fa-save me-1"></i> Update

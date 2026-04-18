@@ -18,6 +18,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 // ? Add Email Service
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+// ? Add Invoice Service
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+
 // Add MVC
 builder.Services.AddControllersWithViews();
 

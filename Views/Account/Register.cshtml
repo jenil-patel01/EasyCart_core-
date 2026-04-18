@@ -5,68 +5,252 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Register</title>
+    <title>Register - EasyCart</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/user.min.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f2fbfa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 40px 0;
+        }
+        .register-card {
+            background: #ffffff;
+            padding: 45px 40px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 440px;
+        }
+        .brand-title {
+            color: #178a54;
+            font-weight: 700;
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .welcome-subtitle {
+            color: #0b693d;
+            font-weight: 600;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        .form-label {
+            color: #117849;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .input-group-custom {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .input-group-custom i.left-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #84ccab;
+            font-size: 15px;
+        }
+        .input-group-custom input {
+            width: 100%;
+            padding: 12px 16px 12px 42px;
+            border: 1px solid #c7ece0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            background-color: #fcfffe;
+            transition: all 0.3s;
+        }
+        .input-group-custom input::placeholder {
+            color: #a0a6a4;
+        }
+        .input-group-custom input:focus {
+            outline: none;
+            border-color: #149c5e;
+            box-shadow: 0 0 0 3px rgba(20, 156, 94, 0.1);
+        }
+        .input-group-custom .eye-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 16px;
+            cursor: pointer;
+            color: #84ccab;
+        }
+        .input-group-custom .eye-icon:hover {
+            color: #149c5e;
+        }
+        .terms-text {
+            font-size: 13px;
+            color: #4d4d4d;
+            margin-left: 5px;
+        }
+        .terms-link {
+            color: #149c5e;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .terms-link:hover {
+            text-decoration: underline;
+        }
+        .form-check-input {
+            cursor: pointer;
+            border-color: #a0a6a4;
+            margin-top: 4px;
+        }
+        .form-check-input:checked {
+            background-color: #149c5e;
+            border-color: #149c5e;
+        }
+        .btn-register {
+            background: linear-gradient(90deg, #1aa465, #088b48);
+            border: none;
+            border-radius: 8px;
+            padding: 13px;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            width: 100%;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+        }
+        .btn-register:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(26, 164, 101, 0.25);
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            color: #84ccab;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #d4ece0;
+        }
+        .divider span {
+            padding: 0 10px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #117849;
+        }
+        .signin-text {
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+        }
+        .signin-link {
+            color: #088b48;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .signin-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
-<body class="auth-body bg-blue">
-    <div class="d-flex align-items-center justify-content-center" style="min-height: calc(100vh - 80px);">
-        <div class="login-card">
+<body>
     <div class="register-card">
-        <div class="welcome">Create your account</div>
-        <div class="title">Register</div>
+        <div class="brand-title">EasyCart</div>
+        <div class="welcome-subtitle">Create Account</div>
 
         <form asp-action="Register" method="post">
             @Html.AntiForgeryToken()
 
-            <div asp-validation-summary="All" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger mb-3" style="font-size: 13px; font-weight: 500;"></div>
 
-            <div class="mb-3">
+            <div class="mb-1">
                 <label asp-for="FullName" class="form-label">Full Name</label>
-                <input asp-for="FullName" class="form-control" placeholder="John Doe" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
+                <div class="input-group-custom">
+                    <i class="fa-regular fa-user left-icon"></i>
+                    <input asp-for="FullName" placeholder="Enter your full name" />
+                </div>
+                <span asp-validation-for="FullName" class="text-danger" style="font-size: 12px; position:relative; top:-15px;"></span>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="Email" class="form-label">Email</label>
-                <input asp-for="Email" class="form-control" placeholder="test@gmail.com" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+            <div class="mb-1">
+                <label asp-for="Email" class="form-label">Email Address</label>
+                <div class="input-group-custom">
+                    <i class="fa-regular fa-envelope left-icon"></i>
+                    <input asp-for="Email" placeholder="Enter your email" autocomplete="email" />
+                </div>
+                <span asp-validation-for="Email" class="text-danger" style="font-size: 12px; position:relative; top:-15px;"></span>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-1">
                 <label asp-for="Password" class="form-label">Password</label>
-                <input asp-for="Password" type="password" class="form-control" placeholder="********" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <div class="input-group-custom">
+                    <i class="fa-solid fa-lock left-icon"></i>
+                    <input asp-for="Password" type="password" id="passwordInput" placeholder="Create a strong password" />
+                    <i class="fa-regular fa-eye eye-icon" onclick="togglePassword('passwordInput', 'eyeIcon1')" id="eyeIcon1"></i>
+                </div>
+                <span asp-validation-for="Password" class="text-danger" style="font-size: 12px; position:relative; top:-15px;"></span>
             </div>
 
-            <div class="mb-2">
+            <div class="mb-1">
                 <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
-                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="********" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                <div class="input-group-custom">
+                    <i class="fa-solid fa-lock left-icon"></i>
+                    <input asp-for="ConfirmPassword" type="password" id="confirmPasswordInput" placeholder="Confirm your password" />
+                    <i class="fa-regular fa-eye eye-icon" onclick="togglePassword('confirmPasswordInput', 'eyeIcon2')" id="eyeIcon2"></i>
+                </div>
+                <span asp-validation-for="ConfirmPassword" class="text-danger" style="font-size: 12px; position:relative; top:-15px;"></span>
             </div>
 
-                   <div class="mb-3">
-                        <label asp-for="Address" class="form-label">Address</label>
-                        <input asp-for="Address" class="form-control" placeholder="Enter your address" />
-                        <span asp-validation-for="Address" class="text-danger"></span>
-                    </div>
+            <div class="d-flex align-items-start mb-2 mt-2">
+                <input class="form-check-input shadow-none me-2" type="checkbox" id="termsCheck" required>
+                <label class="form-check-label terms-text" for="termsCheck">
+                    I agree to the <a href="#" class="terms-link">Terms and Conditions</a> and <a href="#" class="terms-link">Privacy Policy</a>
+                </label>
+            </div>
 
-            <button type="submit" class="btn-register">REGISTER ?</button>
+            <button type="submit" class="btn-register">Create Account</button>
 
-            <div class="signin">
-                Already have an account ?
-                <a href="/Account/Login">Sign in</a>
+            <div class="divider">
+                <span>Already registered? Sign in</span>
+            </div>
+
+            <div class="signin-text mt-3">
+                Already have an account? <a href="/Account/Login" class="signin-link">Sign in here</a>
             </div>
         </form>
     </div>
-    </div>
-    </div>
+
+    <script>
+        function togglePassword(inputId, iconId) {
+            var passInput = document.getElementById(inputId);
+            var eyeIcon = document.getElementById(iconId);
+            
+            if (passInput.type === "password") {
+                passInput.type = "text";
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            } else {
+                passInput.type = "password";
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            }
+        }
+    </script>
 </body>
 </html>

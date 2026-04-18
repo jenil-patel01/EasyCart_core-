@@ -4,32 +4,63 @@
     ViewData["Title"] = "My Wishlist";
 }
 
-<h2>My Wishlist</h2>
+<div class="shop-page py-4">
+    <div class="container">
+        <h2 class="mb-4 d-flex align-items-center gap-2" style="font-weight: 800; color: #2d3436;">
+            <i class="fa fa-heart" style="color: #e84393;"></i> My Wishlist
+        </h2>
 
-@if (!Model.Any())
-{
-    <p>Your wishlist is empty.</p>
-}
-else
-{
-    <div class="row">
-        @foreach (var item in Model)
+        @if (!Model.Any())
         {
-            <div class="col-md-3 mb-3">
-                <div class="card p-2">
-                    <img src="@item.Product.ImageUrl" class="card-img-top" style="height:150px;object-fit:contain;" />
-                    <div class="card-body text-center">
-                        <h6>@item.Product.Name</h6>
-                        <p>&#8377;@item.Product.Price</p>
+            <div class="empty-state">
+                <i class="fa fa-heart-crack mb-3"></i>
+                <h4 class="fw-bold">Your wishlist is empty</h4>
+                <p class="text-muted">Save items you like and check them out later.</p>
+                <a asp-controller="Home" asp-action="Products" class="btn-gradient mt-3 d-inline-block text-decoration-none">
+                    Explore Products
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+                @foreach (var item in Model)
+                {
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="product-card h-100">
+                            <!-- Image Wrap -->
+                            <div class="product-img-wrap">
+                                @if (!string.IsNullOrEmpty(item.Product.ImageUrl))
+                                {
+                                    <img src="@item.Product.ImageUrl" alt="@item.Product.Name" />
+                                }
+                                else
+                                {
+                                    <i class="fa fa-image text-muted" style="font-size:40px;"></i>
+                                }
+                            </div>
 
-                        <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.ProductId"
-                           class="btn btn-primary btn-sm">Add to Cart</a>
+                            <!-- Info Body -->
+                            <div class="product-body">
+                                <h3 class="product-name text-truncate">@item.Product.Name</h3>
+                                <p class="product-price">&#8377;@item.Product.Price.ToString("N2")</p>
 
-                        <a asp-controller="Wishlist" asp-action="Remove" asp-route-id="@item.Id"
-                           class="btn btn-danger btn-sm">Remove</a>
+                                <div class="product-actions mt-auto d-flex flex-column gap-2">
+                                    <a asp-controller="Cart" asp-action="Add" asp-route-productId="@item.ProductId"
+                                       class="btn-add-cart">
+                                        <i class="fa fa-cart-plus me-1"></i> Add to Cart
+                                    </a>
+                                    
+                                    <a asp-controller="Wishlist" asp-action="Remove" asp-route-id="@item.Id"
+                                       class="btn btn-sm btn-outline-danger mt-1" style="border-radius: 10px; font-weight: 600;">
+                                        <i class="fa fa-trash me-1"></i> Remove
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         }
     </div>
-}
+</div>

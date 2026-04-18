@@ -151,14 +151,24 @@
                                 </div>
 
                                 <!-- Footer -->
-                                <div class="order-card-footer">
-                                    <span class="order-items-count">
-                                        <i class="fa fa-box-open me-1"></i>
-                                        @(order.OrderItems?.Count ?? 0) item(s)
-                                    </span>
+                                <div class="order-card-footer d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="order-items-count">
+                                            <i class="fa fa-box-open me-1"></i>
+                                            @(order.OrderItems?.Count ?? 0) item(s)
+                                        </span>
+                                        
+                                        @if (order.Status == "Delivered")
+                                        {
+                                            <a href="/Order/DownloadInvoice?orderId=@order.Id" class="btn btn-sm btn-outline-primary shadow-sm rounded-pill fw-bold" style="font-size: 13px;" target="_blank">
+                                                <i class="fa-solid fa-file-pdf me-1"></i> Download Invoice
+                                            </a>
+                                        }
+                                    </div>
+                                    
                                     <div>
                                         <span class="order-total-label">Total: </span>
-                                        <span class="order-total-value">&#8377;@order.TotalAmount.ToString("N2")</span>
+                                        <span class="order-total-value">&#8377;@Math.Round(order.TotalAmount, 2).ToString("N2")</span>
                                     </div>
                                 </div>
                             </div>

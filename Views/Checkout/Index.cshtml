@@ -59,11 +59,12 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label class="form-label">Phone (optional)</label>
+                                        <label class="form-label">Phone <span class="text-danger">*</span></label>
                                         <div class="input-icon-wrap">
                                             <i class="fa fa-phone"></i>
-                                            <input type="text" class="form-control" placeholder="+1 234 567 8900" />
+                                            <input asp-for="Phone" class="form-control" placeholder="+91 00000 00000" />
                                         </div>
+                                        <span asp-validation-for="Phone" class="text-danger"></span>
                                     </div>
 
                                     <div class="col-12">
@@ -74,6 +75,28 @@
                                         </div>
                                         <span asp-validation-for="Address" class="text-danger"></span>
                                     </div>
+                                    
+                                    <div class="col-12 mt-4">
+                                        <h6 class="fw-bold mb-3"><i class="fa fa-credit-card me-2"></i> Payment Method</h6>
+                                        
+                                        <label class="payment-method-box bg-light p-3 rounded border mb-2 d-flex align-items-center gap-3 w-100" for="payRazorpay" style="cursor: pointer; transition: all 0.2s;">
+                                            <input class="form-check-input mt-0" type="radio" asp-for="PaymentMethod" value="RAZORPAY" id="payRazorpay" checked>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <i class="fa-solid fa-building-columns text-primary fs-5"></i>
+                                                <span class="fw-semibold">Pay with Razorpay (Online)</span>
+                                            </div>
+                                        </label>
+                                        
+                                        <label class="payment-method-box bg-light p-3 rounded border d-flex align-items-center gap-3 w-100" for="payCOD" style="cursor: pointer; transition: all 0.2s;">
+                                            <input class="form-check-input mt-0" type="radio" asp-for="PaymentMethod" value="COD" id="payCOD">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <i class="fa-solid fa-money-bill-1-wave text-success fs-5"></i>
+                                                <span class="fw-semibold">Cash on Delivery (COD)</span>
+                                            </div>
+                                        </label>
+                                        <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+                                    </div>
+                                    
                                 </div>
 
                                 
@@ -126,11 +149,16 @@
                                         <span>Total</span>
                                         <span class="summary-val">&#8377;@Model.Total.ToString("N2")</span>
                                     </div>
+                                    
+                                    <div class="summary-row mt-2" style="padding-top: 10px; border-top: 1px dashed #eee;">
+                                        <span style="font-size: 14px; color: #636e72;">Payment Method</span>
+                                        <span id="summaryPaymentMethod" style="font-weight: 600; color: #00b894; font-size: 14px;">Online (Razorpay)</span>
+                                    </div>
                                    
                                 </div>
 
                                 <button type="submit" class="btn-place-order mt-3" id="placeOrderBtn">
-                                    <i class="fa fa-lock me-2"></i> Place Order &#8212; &#8377;@Model.Total.ToString("N2")
+                                    <i class="fa fa-lock me-2"></i> Place Order
                                 </button>
 
                                 <div class="text-center mt-3">
@@ -152,11 +180,24 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        // Disable button on submit to prevent double-click
-        document.querySelector('.ck-form')?.addEventListener('submit', function () {
-            var btn = document.getElementById('placeOrderBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i> Processing...';
+        // Update summary based on payment method selection
+        $('input[name="PaymentMethod"]').on('change', function() {
+            var selectedMethod = $(this).val();
+            if(selectedMethod === 'COD') {
+                $('#summaryPaymentMethod').text('Cash on Delivery');
+            } else {
+                $('#summaryPaymentMethod').text('Online (Razorpay)');
+            }
+        });
+        
+        // Disable button on submit only if the form is valid to prevent double-click
+        $('.ck-form').on('submit', function (e) {
+            var $form = $(this);
+            if ($form.valid()) {
+                var btn = document.getElementById('placeOrderBtn');
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i> Processing...';
+            }
         });
     </script>
 }

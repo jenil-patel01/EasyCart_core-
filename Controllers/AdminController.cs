@@ -56,7 +56,7 @@ namespace eays.Controllers
         }
 
         // ================= ORDERS LIST =================
-        public async Task<IActionResult> Orders(string status)
+        public async Task<IActionResult> Orders(string status, string search)
         {
             var query = _context.Orders
                 .Include(o => o.OrderItems)
@@ -67,9 +67,13 @@ namespace eays.Controllers
             if (!string.IsNullOrEmpty(status) && status != "All")
                 query = query.Where(o => o.Status == status);
 
+            if (!string.IsNullOrWhiteSpace(search))
+                query = query.Where(o => o.FullName.Contains(search) || o.Id.ToString() == search || o.Email.Contains(search));
+
             var orders = await query.ToListAsync();
 
             ViewBag.CurrentFilter = status ?? "All";
+            ViewBag.CurrentSearch = search;
             ViewBag.PendingCount = await _context.Orders.CountAsync(o => o.Status == "Pending");
             ViewBag.ProcessingCount = await _context.Orders.CountAsync(o => o.Status == "Processing");
             ViewBag.ShippedCount = await _context.Orders.CountAsync(o => o.Status == "Shipped");
@@ -126,11 +130,18 @@ namespace eays.Controllers
         }
 
         // ================= CATEGORIES LIST =================
-        public async Task<IActionResult> Categories()
+        public async Task<IActionResult> Categories(string search)
         {
-            var categories = await _context.Categories
+            var query = _context.Categories
                 .Include(c => c.Products)
-                .ToListAsync();
+                .AsQueryable();
+                
+            if (!string.IsNullOrWhiteSpace(search))
+                query = query.Where(c => c.Name.Contains(search));
+
+            var categories = await query.ToListAsync();
+            
+            ViewBag.CurrentSearch = search;
             return View(categories);
         }
 
@@ -191,9 +202,16 @@ namespace eays.Controllers
         }
 
         // ================= PRODUCTS LIST (updated) =================
-        public async Task<IActionResult> Products()
+        public async Task<IActionResult> Products(string search)
         {
-            var products = await _context.Products.Include(p => p.Category).ToListAsync();
+            var query = _context.Products.Include(p => p.Category).AsQueryable();
+            
+            if (!string.IsNullOrWhiteSpace(search))
+                query = query.Where(p => p.Name.Contains(search) || (p.Category != null && p.Category.Name.Contains(search)));
+
+            var products = await query.ToListAsync();
+            
+            ViewBag.CurrentSearch = search;
             return View(products);
         }
 
@@ -298,25 +316,55 @@ namespace eays.Controllers
         }
 
         // ================= USERS LIST =================
-        public IActionResult Users()
+        public IActionResult Users(string search)
         {
-            var users = _userManager.Users.ToList();
+            var query = _userManager.Users.AsQueryable();
+            
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(u => u.FullName.Contains(search) || u.Email.Contains(search));
+            }
+            
+            var users = query.ToList();
+            ViewBag.CurrentSearch = search;
             return View(users);
         }
-
-        // ================= DELETE USER =================
-        public async Task<IActionResult> DeleteUser(string id)
+        
+        // ================= ADMIN PROFILE =================
+        [HttpGet]
+        public async Task<IActionResult> Profile()
         {
-            if (id == null)
-                return NotFound();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return RedirectToAction("Login", "Account");
+            
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile(ApplicationUser model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return RedirectToAction("Login", "Account");
+
+            user.FullName = model.FullName;
+            user.PhoneNumber = model.PhoneNumber;
+            user.Address = model.Address;
+
+            await _userManager.UpdateAsync(user);
+
+            TempData["ProfileMessage"] = "Your profile has been updated successfully!";
+            return RedirectToAction("Profile");
+        }
+
+        // ================= USER PROFILE =================
+        public async Task<IActionResult> UserProfile(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return NotFound();
 
             var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-                return NotFound();
+            if (user == null) return NotFound();
 
-            await _userManager.DeleteAsync(user);
-
-            return RedirectToAction("Users");
+            return View(user);
         }
 
         // ================= CONTACT QUERIES =================

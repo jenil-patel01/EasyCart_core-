@@ -7,15 +7,33 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="fw-bold mb-0">Orders Management</h2>
-    <span style="font-size:14px; color:#b2bec3; font-weight:600;">
-        @Model.Count order(s)
-    </span>
+    
+    <!-- Search Form -->
+    <form method="get" asp-action="Orders" style="margin: 0; display: flex; align-items: center; gap: 15px;">
+        <input type="hidden" name="status" value="@ViewBag.CurrentFilter" />
+        <div style="position: relative;">
+            <i class="fa fa-search" style="position: absolute; top: 50%; left: 16px; transform: translateY(-50%); color: #9ca3af; font-size: 15px;"></i>
+            <input type="text" name="search" value="@ViewBag.CurrentSearch" placeholder="Search by name, email or ID..." 
+                   style="width: 320px; padding: 10px 35px 10px 42px; border-radius: 50px; border: 1px solid #e5e7eb; background-color: #f9fafb; font-size: 14px; color: #4b5563; outline: none; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.03);"
+                   onfocus="this.style.backgroundColor='#ffffff'; this.style.borderColor='#d1d5db'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.05)';"
+                   onblur="this.style.backgroundColor='#f9fafb'; this.style.borderColor='#e5e7eb'; this.style.boxShadow='0 1px 2px rgba(0,0,0,0.03)';">
+            @if (!string.IsNullOrEmpty(ViewBag.CurrentSearch as string))
+            {
+                <a href="/Admin/Orders?status=@ViewBag.CurrentFilter" style="position: absolute; top: 50%; right: 14px; transform: translateY(-50%); color: #ef4444; text-decoration: none; font-size: 16px;">
+                    <i class="fa fa-times-circle"></i>
+                </a>
+            }
+        </div>
+        <span style="font-size: 15px; color: #9ca3af; font-weight: 500;">
+            @Model.Count order(s)
+        </span>
+    </form>
 </div>
 
 @if (TempData["OrderMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert"
-         style="border-radius:10px; border:none; font-weight:600;">
+         style="border-radius:10px; border:none; font-weight:600;"> 
         <i class="fa fa-check-circle me-1"></i> @TempData["OrderMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
@@ -27,19 +45,19 @@
         All <span class="badge">@(Model.Count)</span>
     </a>
     <a href="/Admin/Orders?status=Pending" class="filter-tab @(ViewBag.CurrentFilter == "Pending" ? "active" : "")">
-        ?? Pending <span class="badge">@ViewBag.PendingCount</span>
+         Pending <span class="badge">@ViewBag.PendingCount</span>
     </a>
     <a href="/Admin/Orders?status=Processing" class="filter-tab @(ViewBag.CurrentFilter == "Processing" ? "active" : "")">
-        ?? Processing <span class="badge">@ViewBag.ProcessingCount</span>
+         Processing <span class="badge">@ViewBag.ProcessingCount</span>
     </a>
     <a href="/Admin/Orders?status=Shipped" class="filter-tab @(ViewBag.CurrentFilter == "Shipped" ? "active" : "")">
-        ?? Shipped <span class="badge">@ViewBag.ShippedCount</span>
+         Shipped <span class="badge">@ViewBag.ShippedCount</span>
     </a>
     <a href="/Admin/Orders?status=Delivered" class="filter-tab @(ViewBag.CurrentFilter == "Delivered" ? "active" : "")">
-        ? Delivered <span class="badge">@ViewBag.DeliveredCount</span>
+         Delivered <span class="badge">@ViewBag.DeliveredCount</span>
     </a>
     <a href="/Admin/Orders?status=Cancelled" class="filter-tab @(ViewBag.CurrentFilter == "Cancelled" ? "active" : "")">
-        ? Cancelled <span class="badge">@ViewBag.CancelledCount</span>
+         Cancelled <span class="badge">@ViewBag.CancelledCount</span>
     </a>
 </div>
 

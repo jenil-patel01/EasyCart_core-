@@ -71,5 +71,39 @@ namespace eays.Controllers
 
             return RedirectToAction("Index");
         }
+
+        // INCREASE QUANTITY
+        [HttpPost]
+        public IActionResult Increase(int id)
+        {
+            var item = _context.CartItems.Find(id);
+            if (item != null)
+            {
+                item.Quantity++;
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        // DECREASE QUANTITY
+        [HttpPost]
+        public IActionResult Decrease(int id)
+        {
+            var item = _context.CartItems.Find(id);
+            if (item != null)
+            {
+                if (item.Quantity > 1)
+                {
+                    item.Quantity--;
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    _context.CartItems.Remove(item);
+                    _context.SaveChanges();
+                }
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

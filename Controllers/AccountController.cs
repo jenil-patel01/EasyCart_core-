@@ -170,14 +170,20 @@ namespace eays.Controllers
             }
 
             // NORMAL USER LOGIN
-            var result = await _signInManager.PasswordSignInAsync(
-                model.Email,
-                model.Password,
-                false,
-                false);
-
-            if (result.Succeeded)
-                return RedirectToAction("Index", "Home");
+            var normalUser = await _userManager.FindByEmailAsync(model.Email);
+            if (normalUser != null)
+            {
+                var result = await _signInManager.PasswordSignInAsync(normalUser, model.Password, model.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    if (normalUser.Email == "admin@gmail.com") // Assuming basic role check based on code behavior
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    
+                    return RedirectToAction("Index", "Home");
+                }
+            }
 
             ModelState.AddModelError("", "Invalid login");
             return View(model);
